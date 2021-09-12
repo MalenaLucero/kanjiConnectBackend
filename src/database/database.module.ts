@@ -24,8 +24,8 @@ import config from '../config'
         {
             provide: 'MONGO',
             useFactory: async (configService: ConfigType<typeof config>) => {
-                const { user, password, dbName } = configService.mongo;
-                const uri = `mongodb+srv://${user}:${password}@vocabcardsdb.vhszt.mongodb.net/vocabCardsDB?retryWrites=true&w=majority`;
+                const { user, password, host, dbName } = configService.mongo;
+                const uri = `mongodb+srv://${user}:${password}@${host}`;
                 const client = new MongoClient(uri);
                 await client.connect();
                 const database = client.db(dbName);
