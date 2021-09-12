@@ -3,10 +3,12 @@ import { Controller, Get, Param, Query, Post, Body, Put, Delete, HttpStatus, Htt
 import { ExpressionsService } from 'src/data/services/expressions/expressions.service';
 import { CreateExpressionDto, FilterExpressionsDto, UpdateExpressionDto } from 'src/data/dtos/expression.dto';
 import { MongoIdPipe } from '../../../common/mongo-id.pipe';
+import { KanjisService } from 'src/data/services/kanjis/kanjis.service';
 
 @Controller('expressions')
 export class ExpressionsController {
-    constructor(private expressionsService: ExpressionsService) {}
+    constructor(private expressionsService: ExpressionsService,
+                private kanjisService: KanjisService) {}
 
     @HttpCode(HttpStatus.ACCEPTED)
     @Get()
@@ -21,7 +23,13 @@ export class ExpressionsController {
 
     @Post()
     create(@Body() payload: CreateExpressionDto) {
-        return this.expressionsService.create(payload);
+        const kanjis: Array<string> = payload.word.split('')
+            .filter(char => char.charCodeAt(0) >= 13312 && char.charCodeAt(0) < 65306);
+        let kanjisId: Array<string> = []
+        kanjis.forEach(kanji => {
+            this.kanjisService.createFromApi(kanji)
+        });
+        //return this.expressionsService.create(payload);
     }
 
     @Put(':id')

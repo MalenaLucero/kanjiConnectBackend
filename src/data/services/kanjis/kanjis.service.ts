@@ -31,6 +31,11 @@ export class KanjisService {
         return newKanji.save();
     }
 
+    createFromApi(kanji: string) {
+        console.log(kanji)
+        
+    }
+
     update(id: string, changes: UpdateKanjiDto) {
         const kanji = this.kanjiModel.findByIdAndUpdate(id, { $set: changes }, { new: true }).exec();
         if (!kanji) {

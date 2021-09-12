@@ -7,6 +7,8 @@ import { Expression, ExpressionSchema } from './entities/expression.entity';
 import { KanjisController } from './controllers/kanjis/kanjis.controller';
 import { KanjisService } from './services/kanjis/kanjis.service';
 import { Kanji, KanjiSchema } from './entities/kanji.entity';
+import { ExampleSentencesController } from './controllers/example-sentences/example-sentences.controller';
+import { ExampleSentencesService } from './services/example-sentences/example-sentences.service';
 
 @Module({
     imports: [MongooseModule.forFeature([
@@ -18,7 +20,7 @@ import { Kanji, KanjiSchema } from './entities/kanji.entity';
             schema: ExpressionSchema
         }
     ])],
-    controllers: [ExpressionsController, KanjisController],
-    providers: [ExpressionsService, KanjisService]
+    controllers: [ExpressionsController, KanjisController, ExampleSentencesController],
+    providers: [ExpressionsService, KanjisService, ExampleSentencesService]
 })
 export class DataModule {}

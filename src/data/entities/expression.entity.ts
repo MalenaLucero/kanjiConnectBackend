@@ -3,6 +3,7 @@ import { Document, Types } from 'mongoose';
 
 import { User } from '../../users/entities/user.entity';
 import { Kanji } from '../entities/kanji.entity';
+import { ExampleSentenceSchema } from './example-sentence.entity';
 
 @Schema()
 export class Expression extends Document {
@@ -18,8 +19,8 @@ export class Expression extends Document {
     @Prop({ type: [String] })
     japaneseMeaning: Array<string>;
 
-    /*@Prop({ type: [ExampleSentence] })
-    exampleSentences: Array<ExampleSentence>;*/
+    @Prop({ type: [ExampleSentenceSchema] })
+    exampleSentences: Types.Array<Record<string, any>>
 
     @Prop({ type: [String] })
     tags_id: Array<string>;
@@ -32,8 +33,3 @@ export class Expression extends Document {
 }
 
 export const ExpressionSchema = SchemaFactory.createForClass(Expression);
-
-export class ExampleSentence {
-    sentence: string;
-    source: string;
-}

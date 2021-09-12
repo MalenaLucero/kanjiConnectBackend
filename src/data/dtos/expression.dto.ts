@@ -1,7 +1,8 @@
 import { IsNumber, IsString, IsNotEmpty, IsArray, IsPositive, IsOptional, Min, Max, IsMongoId } from "class-validator";
 import { PartialType, OmitType } from "@nestjs/swagger";
+import { Type } from 'class-transformer';
 
-import { ExampleSentence } from "src/data/entities/expression.entity";
+import { CreateExampleSentenceDto } from "./example-sentence.dto";
 
 export class CreateExpressionDto {
     @IsString()
@@ -20,8 +21,10 @@ export class CreateExpressionDto {
     @IsOptional()
     readonly japaneseMeaning: Array<string>;
 
-    /*@IsArray()
-    readonly exampleSentences: Array<ExampleSentence>;*/
+    @IsArray()
+    @IsOptional()
+    @Type(() => CreateExampleSentenceDto)
+    readonly exampleSentences: CreateExampleSentenceDto[];
 
     @IsArray()
     @IsOptional()
@@ -37,7 +40,7 @@ export class CreateExpressionDto {
 }
 
 export class UpdateExpressionDto extends PartialType(
-    OmitType(CreateExpressionDto, ['kanjis'])
+    OmitType(CreateExpressionDto, ['kanjis', 'exampleSentences'])
 ){}
 
 export class FilterExpressionsDto {
