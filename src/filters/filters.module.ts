@@ -17,6 +17,7 @@ import { LessonsService } from './services/lessons/lessons.service';
     }
   ])],
   controllers: [FiltersController, TagsController, LessonsController],
-  providers: [FiltersService, TagsService, LessonsService]
+  providers: [FiltersService, TagsService, LessonsService],
+  exports: [FiltersService]
 })
 export class FiltersModule {}

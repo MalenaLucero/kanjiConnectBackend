@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Model, FilterQuery } from 'mongoose';
+import { Model, FilterQuery, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Filter } from 'src/filters/entities/filter.entity';
@@ -22,9 +22,9 @@ export class FiltersService {
     }
 
     async findOneByUser(id: string) {
-        const filter = await this.filterModel.findOne({ user: id }).exec();
+        const filter = await this.filterModel.findOne({ user: Types.ObjectId(id) }).exec();
         if (!filter) {
-            throw new NotFoundException('Filter with user ' + id + ' not found');
+            throw new NotFoundException('Filter for user with ID ' + id + ' not found');
         }
         return filter;
     }
@@ -36,5 +36,10 @@ export class FiltersService {
 
     delete(id: string) {
         return this.filterModel.findByIdAndDelete(id);
+    }
+
+    async deleteByUser(id: string) {
+        const filter = await this.findOneByUser(id)
+        return this.filterModel.findByIdAndDelete(filter._id);
     }
 }

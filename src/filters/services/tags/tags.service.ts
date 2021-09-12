@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Model, FilterQuery } from 'mongoose';
+import { Model, FilterQuery, ObjectId, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Filter } from 'src/filters/entities/filter.entity';
@@ -11,11 +11,17 @@ export class TagsService {
 
     async findByFilter(id: string) {
         const filter = await this.filterModel.findById(id);
+        if (!filter) {
+            throw new NotFoundException('Filter with ID ' + id + ' not found');
+        }
         return filter.tags; 
     }
 
     async findByUser(id: string) {
-        const filter = await this.filterModel.findOne({ user: id })
+        const filter = await this.filterModel.findOne({ user: Types.ObjectId(id) });
+        if (!filter) {
+            throw new NotFoundException('Filter for user with ID ' + id + ' not found');
+        }
         return filter.tags;
     }
 

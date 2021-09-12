@@ -4,11 +4,14 @@ import { ApiTags } from '@nestjs/swagger';
 import { UsersService } from '../../services/users/user.service';
 import { CreateUserDto, UpdateUserDto } from 'src/users/dtos/user.dto';
 import { MongoIdPipe } from '../../../common/mongo-id.pipe';
+import { FiltersService } from 'src/filters/services/filters/filters.service';
+import { CreateFilterDto } from 'src/filters/dtos/filter.dto';
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
-    constructor(private usersService: UsersService) {}
+    constructor(private usersService: UsersService,
+                private filtersService: FiltersService) {}
 
     @HttpCode(HttpStatus.ACCEPTED)
     @Get()
@@ -22,8 +25,13 @@ export class UsersController {
     }
 
     @Post()
-    create(@Body() payload: CreateUserDto) {
-        return this.usersService.create(payload);
+    async create(@Body() payload: CreateUserDto) {
+        const user = await this.usersService.create(payload);
+        if (user) {
+            const filter = { user: user._id, tags: [], lessons: [] }
+            this.filtersService.create(filter)
+        }
+        return user;
     }
 
     @Put(':id')
@@ -32,7 +40,11 @@ export class UsersController {
     }
 
     @Delete(':id')
-    delete(@Param('id', MongoIdPipe) id: string) {
-        return this.usersService.delete(id);
+    async delete(@Param('id', MongoIdPipe) id: string) {
+        const user = await this.usersService.delete(id);
+        if (user) {
+            this.filtersService.deleteByUser(id);
+        }
+        return user;
     }
 }
