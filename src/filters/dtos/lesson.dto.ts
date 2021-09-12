@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsDate, IsUrl } from "class-validator";
+import { IsString, IsNotEmpty, IsDate, IsUrl, IsOptional, IsMongoId } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
 
 export class CreateLessonDto {
@@ -14,3 +14,13 @@ export class CreateLessonDto {
 }
 
 export class UpdateLessonDto extends PartialType(CreateLessonDto){}
+
+export class FilterLessonDto {
+    @IsOptional()
+    @IsMongoId()
+    filter: string;
+
+    @IsOptional()
+    @IsMongoId()
+    user: string;
+}

@@ -9,15 +9,25 @@ import { CreateLessonDto } from 'src/filters/dtos/lesson.dto';
 export class LessonsService {
     constructor(@InjectModel(Filter.name) private filterModel: Model<Filter>) {}
 
-    async removeLesson(id: string, lessonId: string) {
+    async findByFilter(id: string) {
         const filter = await this.filterModel.findById(id);
-        filter.lessons.pull(lessonId);
-        return filter.save();
+        return filter.lessons;
+    }
+
+    async findByUser(id: string) {
+        const filter = await this.filterModel.findOne({ user: id });
+        return filter.lessons;
     }
 
     async addLesson(id: string, lesson: CreateLessonDto) {
         const filter = await this.filterModel.findById(id);
         filter.lessons.push(lesson);
+        return filter.save();
+    }
+
+    async removeLesson(id: string, lessonId: string) {
+        const filter = await this.filterModel.findById(id);
+        filter.lessons.pull(lessonId);
         return filter.save();
     }
 }

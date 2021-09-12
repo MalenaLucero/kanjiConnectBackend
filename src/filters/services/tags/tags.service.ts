@@ -9,9 +9,14 @@ import { CreateTagDto } from 'src/filters/dtos/tag.dto';
 export class TagsService {
     constructor(@InjectModel(Filter.name) private filterModel: Model<Filter>) {}
 
-    async findAll(id: string) {
+    async findByFilter(id: string) {
         const filter = await this.filterModel.findById(id);
         return filter.tags; 
+    }
+
+    async findByUser(id: string) {
+        const filter = await this.filterModel.findOne({ user: id })
+        return filter.tags;
     }
 
     async removeTag(id: string, tagId: string) {
