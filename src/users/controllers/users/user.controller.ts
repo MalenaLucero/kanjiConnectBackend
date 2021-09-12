@@ -4,7 +4,6 @@ import { ApiTags } from '@nestjs/swagger';
 import { UsersService } from '../../services/users/user.service';
 import { CreateUserDto, UpdateUserDto } from 'src/users/dtos/user.dto';
 import { MongoIdPipe } from '../../../common/mongo-id.pipe';
-import { CreateTagDto, UpdateTagDto } from 'src/users/dtos/tag.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -36,28 +35,4 @@ export class UsersController {
     delete(@Param('id', MongoIdPipe) id: string) {
         return this.usersService.delete(id);
     }
-
-    @Delete(':id/tags/:tagId')
-    deleteTag(
-        @Param('id', MongoIdPipe) id: string, 
-        @Param('tagId', MongoIdPipe) tagId: string) {
-        return this.usersService.removeTag(id, tagId);
-    }
-
-    @Put(':id/tags')
-    addTag(
-        @Param('id', MongoIdPipe) id: string,
-        @Body() payload: CreateTagDto
-    ) {
-        return this.usersService.addTag(id, payload);
-    }
-
-    /*@Put(':id/tags/:tagId')
-    updateTag(
-        @Param('id', MongoIdPipe) id: string,
-        @Param('tagId', MongoIdPipe) tagId: string,
-        @Body() payload: UpdateTagDto
-    ) {
-        return this.usersService.updateTag(id, tagId, payload);
-    }*/
 }

@@ -5,8 +5,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from 'src/users/entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from '../../dtos/user.dto';
 import { OrderedBulkOperation } from 'mongodb';
-import { Tag } from 'src/users/entities/tag.entity';
-import { CreateTagDto, UpdateTagDto } from 'src/users/dtos/tag.dto';
 
 @Injectable()
 export class UsersService {
@@ -39,26 +37,5 @@ export class UsersService {
 
     delete(id: string) {
         return this.userModel.findByIdAndDelete(id);
-    }
-
-    async removeTag(id: string, tagId: string) {
-        const user = await this.userModel.findById(id);
-        user.tags.pull(tagId);
-        return user.save();
-    }
-
-    async addTag(id: string, tag: CreateTagDto) {
-        const user = await this.userModel.findById(id);
-        user.tags.push(tag);
-        return user.save();
-    }
-
-    async updateTag(id: string, tagId: string, changes: UpdateTagDto) {
-        const user = this.userModel.findByIdAndUpdate(
-            id,
-            { $set: { "tags.$[elem]": changes }},
-            { arrayFilters: [{ "elem._id": tagId }]}
-        ).exec();
-        return user;
     }
 }

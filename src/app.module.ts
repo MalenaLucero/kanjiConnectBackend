@@ -6,11 +6,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { DataModule } from './data/data.module';
-import { OrganizersModule } from './organizers/organizers.module';
 import { DatabaseModule } from './database/database.module';
 
 import { environments } from './environments';
 import { UsersModule } from './users/users.module';
+import { FiltersModule } from './filters/filters.module';
 import config from './config';
 
 @Module({
@@ -24,7 +24,7 @@ import config from './config';
       MONGO_DB: Joi.string().required(),
       MONGO_HOST: Joi.string().required()
     })
-  }), DataModule, OrganizersModule, DatabaseModule, UsersModule],
+  }), DataModule, DatabaseModule, UsersModule, FiltersModule],
   controllers: [AppController],
   providers: [AppService],
 })
