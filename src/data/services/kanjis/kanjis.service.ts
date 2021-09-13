@@ -1,13 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model, FilterQuery } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { HttpService } from '@nestjs/axios';
 
 import { Kanji } from 'src/data/entities/kanji.entity';
 import { CreateKanjiDto, UpdateKanjiDto, FilterKanjisDto } from '../../dtos/kanji.dto';
+import { forkJoin, map, Observable } from 'rxjs';
 
 @Injectable()
 export class KanjisService {
-    constructor(@InjectModel(Kanji.name) private kanjiModel: Model<Kanji>) {}
+    constructor(@InjectModel(Kanji.name) private kanjiModel: Model<Kanji>,
+                private httpService: HttpService) {}
 
     findAll(params?: FilterKanjisDto) {
         if(params) {
@@ -26,14 +29,45 @@ export class KanjisService {
         return kanji;
     }
 
+    findMany(kanjis: Array<string>) {
+        return this.kanjiModel.find({
+            'kanji': { $in: kanjis }
+        }).exec();
+    }
+
     create(data: CreateKanjiDto) {
         const newKanji = new this.kanjiModel(data);
         return newKanji.save();
     }
 
-    createFromApi(kanji: string) {
-        console.log(kanji)
-        
+    createMany(kanjis: Array<string>) {
+        this.getKanjiArrayFromExternalApi(kanjis).subscribe(
+            (res: Array<CreateKanjiDto>) => {
+                this.kanjiModel.create(res)
+            });
+    }
+
+    getKanjiArrayFromExternalApi(kanjis: Array<string>): Observable<Array<CreateKanjiDto>> {
+        return forkJoin(
+                kanjis.map(kanji => this.getKanjiDataFromExternalApi(kanji))
+        ).pipe(
+            map((data: any) => {
+                return kanjis.map((kanji, index) => {
+                    const kanjiData = { ...data[index].data };
+                    delete kanjiData.stroke_count;
+                    delete kanjiData.name_readings;
+                    delete kanjiData.unicode;
+                    delete kanjiData.heisig_en;
+                    return kanjiData;
+                });
+            })
+        );
+    }
+
+    getKanjiDataFromExternalApi(kanji: string): Observable<any> {
+        const URI = 'https://kanjiapi.dev/v1/kanji/' + kanji;
+        const encodedURI = encodeURI(URI);
+        return this.httpService.get(encodedURI);
     }
 
     update(id: string, changes: UpdateKanjiDto) {

@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { HttpModule } from '@nestjs/axios';
 
 import { ExpressionsController } from './controllers/expressions/expressions.controller';
 import { ExpressionsService } from './services/expressions/expressions.service';
@@ -19,7 +20,7 @@ import { ExampleSentencesService } from './services/example-sentences/example-se
             name: Expression.name,
             schema: ExpressionSchema
         }
-    ])],
+    ]), HttpModule],
     controllers: [ExpressionsController, KanjisController, ExampleSentencesController],
     providers: [ExpressionsService, KanjisService, ExampleSentencesService]
 })

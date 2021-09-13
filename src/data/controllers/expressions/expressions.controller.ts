@@ -22,13 +22,13 @@ export class ExpressionsController {
     }
 
     @Post()
-    create(@Body() payload: CreateExpressionDto) {
+    async create(@Body() payload: CreateExpressionDto) {
         const kanjis: Array<string> = payload.word.split('')
             .filter(char => char.charCodeAt(0) >= 13312 && char.charCodeAt(0) < 65306);
-        let kanjisId: Array<string> = []
-        kanjis.forEach(kanji => {
-            this.kanjisService.createFromApi(kanji)
-        });
+        const kanjisInDatabase = await this.kanjisService.findMany(kanjis);
+        const kanjisToSearch = kanjis.filter(kanji => !kanjisInDatabase.map(e => e.kanji).includes(kanji));
+        const newKanji = await this.kanjisService.createMany(kanjisToSearch);
+        return newKanji;
         //return this.expressionsService.create(payload);
     }
 
