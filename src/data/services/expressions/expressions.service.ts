@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Model, FilterQuery } from 'mongoose';
+import { Model, FilterQuery, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Expression } from 'src/data/entities/expression.entity';
@@ -13,9 +13,9 @@ export class ExpressionsService {
         if(params) {
             const filters: FilterQuery<Expression> = {}
             const { limit, offset } = params;
-            return this.expressionModel.find().populate('kanjis').skip(offset).limit(limit).exec();
+            return this.expressionModel.find().skip(offset).limit(limit).exec();
         }
-        return this.expressionModel.find().populate('kanjis').exec();
+        return this.expressionModel.find().populate('user').exec();
     }
 
     async findOne(id: string) {
@@ -24,6 +24,18 @@ export class ExpressionsService {
             throw new NotFoundException('Expression with id ' + id + ' not found');
         }
         return expression;
+    }
+
+    async findByUser(id: string) {
+        const expressions = await this.expressionModel.find({ 'user': id }).exec();
+        if (expressions.length === 0) {
+            throw new NotFoundException('Expressions for user with ID ' + id + ' not found');
+        }
+        return expressions;
+    }
+
+    filter(data: FilterExpressionsDto) {
+        return this.expressionModel.find({ 'lesson': data.lesson }).exec();
     }
 
     create(data: CreateExpressionDto) {

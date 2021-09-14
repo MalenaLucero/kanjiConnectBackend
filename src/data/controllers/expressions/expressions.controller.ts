@@ -21,15 +21,21 @@ export class ExpressionsController {
         return this.expressionsService.findOne(id);
     }
 
+    @Get('user/:id')
+    getExpressionsByUser(@Param('id', MongoIdPipe) id: string) {
+        return this.expressionsService.findByUser(id);
+    }
+
+    @Post('user/:id')
+    filterExpressions(@Body() payload: FilterExpressionsDto) {
+        return this.expressionsService.filter(payload);
+    }
+
     @Post()
     async create(@Body() payload: CreateExpressionDto) {
-        const kanjis: Array<string> = payload.word.split('')
-            .filter(char => char.charCodeAt(0) >= 13312 && char.charCodeAt(0) < 65306);
-        const kanjisInDatabase = await this.kanjisService.findMany(kanjis);
-        const kanjisToSearch = kanjis.filter(kanji => !kanjisInDatabase.map(e => e.kanji).includes(kanji));
-        const newKanji = await this.kanjisService.createMany(kanjisToSearch);
-        return newKanji;
-        //return this.expressionsService.create(payload);
+        const kanjisIds: Array<string> = await this.kanjisService.createFromWord(payload.word);
+        payload.kanjis = kanjisIds;
+        return this.expressionsService.create(payload);
     }
 
     @Put(':id')

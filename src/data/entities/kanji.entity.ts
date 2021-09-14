@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class Kanji extends Document{
-    @Prop({ type: String, required: true })
+    @Prop({ type: String, required: true, unique: true })
     kanji: string;
 
     @Prop({ type: Number, required: true })

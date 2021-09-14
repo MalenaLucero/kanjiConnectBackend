@@ -28,7 +28,11 @@ export class CreateExpressionDto {
 
     @IsArray()
     @IsOptional()
-    readonly tags_id: Array<string>;
+    readonly tags: Array<string>;
+
+    @IsMongoId()
+    @IsNotEmpty()
+    readonly lesson: string;
 
     @IsMongoId()
     @IsNotEmpty()
@@ -36,11 +40,11 @@ export class CreateExpressionDto {
 
     @IsArray()
     @IsNotEmpty()
-    readonly kanjis: string[];
+    kanjis: string[];
 }
 
 export class UpdateExpressionDto extends PartialType(
-    OmitType(CreateExpressionDto, ['kanjis', 'exampleSentences'])
+    OmitType(CreateExpressionDto, ['kanjis', 'exampleSentences', 'tags'])
 ){}
 
 export class FilterExpressionsDto {
@@ -51,4 +55,8 @@ export class FilterExpressionsDto {
     @IsOptional()
     @Min(0)
     offset: number;
+
+    @IsOptional()
+    @IsString()
+    lesson: string;
 }

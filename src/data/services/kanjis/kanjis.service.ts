@@ -5,7 +5,7 @@ import { HttpService } from '@nestjs/axios';
 
 import { Kanji } from 'src/data/entities/kanji.entity';
 import { CreateKanjiDto, UpdateKanjiDto, FilterKanjisDto } from '../../dtos/kanji.dto';
-import { forkJoin, map, Observable } from 'rxjs';
+import { firstValueFrom, forkJoin, map, Observable } from 'rxjs';
 
 @Injectable()
 export class KanjisService {
@@ -40,11 +40,17 @@ export class KanjisService {
         return newKanji.save();
     }
 
-    createMany(kanjis: Array<string>) {
-        this.getKanjiArrayFromExternalApi(kanjis).subscribe(
-            (res: Array<CreateKanjiDto>) => {
-                this.kanjiModel.create(res)
-            });
+    async createFromWord(word: string): Promise<string[]> {
+        const kanjis: Array<string> = this.getKanjisFromWord(word);
+        const kanjisInDatabase = await this.findMany(kanjis);
+        const kanjisToUpload = kanjis.filter(kanji => !kanjisInDatabase.map(e => e.kanji).includes(kanji));
+        const newKanjis = kanjisToUpload.length > 0 ? await this.createMany(kanjisToUpload) : [];
+        return [ ...kanjisInDatabase, ...newKanjis ].map(e => e._id);
+    }
+
+    async createMany(kanjis: Array<string>) {
+        const newKanjis = await firstValueFrom(this.getKanjiArrayFromExternalApi(kanjis));
+        return this.kanjiModel.create(newKanjis);
     }
 
     getKanjiArrayFromExternalApi(kanjis: Array<string>): Observable<Array<CreateKanjiDto>> {
@@ -80,5 +86,10 @@ export class KanjisService {
 
     delete(id: string) {
         return this.kanjiModel.findByIdAndDelete(id);
+    }
+
+    getKanjisFromWord(word: string): Array<string> {
+        return word.split('')
+            .filter(char => char.charCodeAt(0) >= 13312 && char.charCodeAt(0) < 65306);
     }
 }
