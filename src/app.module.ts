@@ -11,6 +11,7 @@ import { DatabaseModule } from './database/database.module';
 import { environments } from './environments';
 import { UsersModule } from './users/users.module';
 import { FiltersModule } from './filters/filters.module';
+import { AuthModule } from './auth/auth.module';
 import config from './config';
 
 @Module({
@@ -22,9 +23,10 @@ import config from './config';
       MONGO_USERNAME: Joi.string().required(),
       MONGO_PASSWORD: Joi.string().required(),
       MONGO_DB: Joi.string().required(),
-      MONGO_HOST: Joi.string().required()
+      MONGO_HOST: Joi.string().required(),
+      API_KEY: Joi.string().required()
     })
-  }), DataModule, DatabaseModule, UsersModule, FiltersModule],
+  }), DataModule, DatabaseModule, UsersModule, FiltersModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

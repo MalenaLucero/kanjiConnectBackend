@@ -1,10 +1,12 @@
-import { Controller, Get, Param, Query, Post, Body, Put, Delete, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Body, Put, Delete, HttpStatus, HttpCode, UseGuards, SetMetadata } from '@nestjs/common';
 
 import { ExpressionsService } from 'src/data/services/expressions/expressions.service';
 import { CreateExpressionDto, FilterExpressionsDto, UpdateExpressionDto } from 'src/data/dtos/expression.dto';
 import { MongoIdPipe } from '../../../common/mongo-id.pipe';
 import { KanjisService } from 'src/data/services/kanjis/kanjis.service';
-
+import { ApiKeyGuard } from '../../../auth/guards/api-key.guard'
+import { Public } from 'src/auth/decorators/public.decorator';
+@UseGuards(ApiKeyGuard)
 @Controller('expressions')
 export class ExpressionsController {
     constructor(private expressionsService: ExpressionsService,
@@ -12,6 +14,7 @@ export class ExpressionsController {
 
     @HttpCode(HttpStatus.ACCEPTED)
     @Get()
+    @Public()
     getClasses(@Query() params: FilterExpressionsDto) {
         return this.expressionsService.findAll(params);
     }
