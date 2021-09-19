@@ -8,6 +8,7 @@ export default registerAs('config', () => {
             password: process.env.MONGO_PASSWORD,
             host: process.env.MONGO_HOST,
             apiKey: process.env.API_KEY
-        }
+        },
+        jwtSecret: process.env.JWT_SECRET
     }
 })

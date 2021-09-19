@@ -22,6 +22,7 @@ import { ExampleSentencesService } from './services/example-sentences/example-se
         }
     ]), HttpModule],
     controllers: [ExpressionsController, KanjisController, ExampleSentencesController],
-    providers: [ExpressionsService, KanjisService, ExampleSentencesService]
+    providers: [ExpressionsService, KanjisService, ExampleSentencesService],
+    exports: [ExpressionsService]
 })
 export class DataModule {}

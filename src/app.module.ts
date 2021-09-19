@@ -24,7 +24,8 @@ import config from './config';
       MONGO_PASSWORD: Joi.string().required(),
       MONGO_DB: Joi.string().required(),
       MONGO_HOST: Joi.string().required(),
-      API_KEY: Joi.string().required()
+      API_KEY: Joi.string().required(),
+      JWT_SECRET: Joi.string().required()
     })
   }), DataModule, DatabaseModule, UsersModule, FiltersModule, AuthModule],
   controllers: [AppController],

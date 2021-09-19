@@ -5,6 +5,9 @@ import { UsersController } from './controllers/users/user.controller';
 import { UsersService } from './services/users/user.service';
 import { User, UserSchema } from './entities/user.entity';
 import { FiltersModule } from 'src/filters/filters.module';
+import { ProfileController } from './controllers/profile/profile.controller';
+import { ProfileService } from './services/profile/profile.service';
+import { DataModule } from 'src/data/data.module';
 
 @Module({
     imports: [MongooseModule.forFeature([
@@ -12,8 +15,9 @@ import { FiltersModule } from 'src/filters/filters.module';
             name: User.name,
             schema: UserSchema
         }
-    ]), FiltersModule],
-    controllers: [UsersController],
-    providers: [UsersService]
+    ]), FiltersModule, DataModule],
+    controllers: [UsersController, ProfileController],
+    providers: [UsersService, ProfileService],
+    exports: [UsersService]
 })
 export class UsersModule {}
