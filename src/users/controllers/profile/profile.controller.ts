@@ -1,5 +1,6 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/roles.model';
@@ -9,6 +10,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard) 
+@ApiTags('profile')
 @Controller('profile')
 export class ProfileController {
     constructor(private expressionsService: ExpressionsService) {}

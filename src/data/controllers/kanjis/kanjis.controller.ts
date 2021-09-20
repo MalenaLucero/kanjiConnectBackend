@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Query, Post, Body, Put, Delete, HttpStatus, HttpCode, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { KanjisService } from 'src/data/services/kanjis/kanjis.service';
 import { CreateKanjiDto, UpdateKanjiDto, FilterKanjisDto } from 'src/data/dtos/kanji.dto';
@@ -10,6 +11,7 @@ import { Role } from 'src/auth/models/roles.model';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
+@ApiTags('kanjis')
 @Controller('kanjis')
 export class KanjisController {
     constructor(private kanjisService: KanjisService) {}

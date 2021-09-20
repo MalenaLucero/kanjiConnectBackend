@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Query, Post, Body, Put, Delete, HttpStatus, HttpCode, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { FiltersService } from 'src/filters/services/filters/filters.service';
 import { CreateFilterDto } from 'src/filters/dtos/filter.dto';
@@ -10,6 +11,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
+@ApiTags('filters')
 @Controller('filters')
 export class FiltersController {
     constructor(private filtersService: FiltersService) {}

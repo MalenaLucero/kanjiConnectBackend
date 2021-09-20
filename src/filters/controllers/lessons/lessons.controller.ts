@@ -11,6 +11,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
+@ApiTags('lessons')
 @Controller('filters/lessons')
 export class LessonsController {
     constructor(private lessonsService: LessonsService) {}

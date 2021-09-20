@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Query, Post, Body, Put, Delete, HttpStatus, HttpCode, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { ExpressionsService } from 'src/data/services/expressions/expressions.service';
 import { CreateExpressionDto, FilterExpressionsDto, UpdateExpressionDto } from 'src/data/dtos/expression.dto';
@@ -9,7 +10,9 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/roles.model';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+
 @UseGuards(JwtAuthGuard, RolesGuard)
+@ApiTags('expressions')
 @Controller('expressions')
 export class ExpressionsController {
     constructor(private expressionsService: ExpressionsService,

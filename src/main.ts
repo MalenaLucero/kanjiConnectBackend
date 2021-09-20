@@ -17,7 +17,7 @@ async function bootstrap() {
   )
   const config = new DocumentBuilder()
     .setTitle('API')
-    .setDescription('VOCABS CARDS API')
+    .setDescription('KANJI CONNECT API')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);

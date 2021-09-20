@@ -11,6 +11,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
+@ApiTags('tags')
 @Controller('filters/tags')
 export class TagsController {
     constructor(private tagsService: TagsService) {}
