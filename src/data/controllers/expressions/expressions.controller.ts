@@ -39,11 +39,12 @@ export class ExpressionsController {
 
     @Public()
     @Post('user/:id')
-    filterExpressions(@Body() payload: FilterExpressionsDto) {
-        return this.expressionsService.filter(payload);
+    filterExpressions(@Param('id', MongoIdPipe) id: string, @Body() payload: FilterExpressionsDto) {
+        return this.expressionsService.filter(id, payload);
     }
 
     @Roles(Role.ADMIN)
+    //@Public()
     @Post()
     async create(@Body() payload: CreateExpressionDto) {
         const kanjisIds: Array<string> = await this.kanjisService.createFromWord(payload.word);

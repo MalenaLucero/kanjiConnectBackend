@@ -89,7 +89,9 @@ export class KanjisService {
     }
 
     getKanjisFromWord(word: string): Array<string> {
-        return word.split('')
+        const kanjiArray = word.split('')
             .filter(char => char.charCodeAt(0) >= 13312 && char.charCodeAt(0) < 65306);
+        const kanjiSet = new Set(kanjiArray)
+        return Array.from(kanjiSet);
     }
 }

@@ -34,8 +34,15 @@ export class ExpressionsService {
         return expressions;
     }
 
-    filter(data: FilterExpressionsDto) {
-        return this.expressionModel.find({ 'lesson': data.lesson }).exec();
+    filter(id: string, data: FilterExpressionsDto) {
+        const query = { user: id }
+        if (data.hasOwnProperty('lesson') && data.lesson !== null && data.lesson.length !== 0) {
+            query['lesson'] = data.lesson
+        }
+        if (data.hasOwnProperty('tags') && data.tags.length !== 0) {
+            query['tags'] = { $all: data.tags }
+        }
+        return this.expressionModel.find(query).exec();
     }
 
     create(data: CreateExpressionDto) {

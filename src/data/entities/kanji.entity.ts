@@ -6,10 +6,10 @@ export class Kanji extends Document{
     @Prop({ type: String, required: true, unique: true })
     kanji: string;
 
-    @Prop({ type: Number, required: true })
+    @Prop({ type: Number })
     jlpt: number;
 
-    @Prop({ type: Number, required: true })
+    @Prop({ type: Number })
     grade: number;
 
     @Prop({ type: [String] })

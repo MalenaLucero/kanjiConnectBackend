@@ -59,4 +59,8 @@ export class FilterExpressionsDto {
     @IsOptional()
     @IsString()
     lesson: string;
+
+    @IsOptional()
+    @IsArray()
+    tags: Array<string>;
 }
