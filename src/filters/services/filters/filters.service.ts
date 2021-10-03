@@ -22,7 +22,7 @@ export class FiltersService {
     }
 
     async findOneByUser(id: string) {
-        const filter = await this.filterModel.findOne({ user: Types.ObjectId(id) }).exec();
+        const filter = await this.filterModel.findOne({ user: id }).exec();
         if (!filter) {
             throw new NotFoundException('Filter for user with ID ' + id + ' not found');
         }
