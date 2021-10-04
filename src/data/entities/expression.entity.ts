@@ -35,6 +35,9 @@ export class Expression extends Document {
 
     @Prop({ type: [{ type: Types.ObjectId, ref: Kanji.name }]})
     kanjis: Types.Array<Kanji>
+
+    @Prop({ type: Number, required: true })
+    difficulty: Number
 }
 
 export const ExpressionSchema = SchemaFactory.createForClass(Expression);

@@ -37,10 +37,16 @@ export class ExpressionsService {
     filter(id: string, data: FilterExpressionsDto) {
         const query = { user: id }
         if (data.hasOwnProperty('lesson') && data.lesson !== null && data.lesson.length !== 0) {
-            query['lesson'] = data.lesson
+            query['lesson'] = data.lesson;
         }
         if (data.hasOwnProperty('tags') && data.tags.length !== 0) {
-            query['tags'] = { $all: data.tags }
+            query['tags'] = { $all: data.tags };
+        }
+        if(data.hasOwnProperty('difficulty') && data.difficulty !== null) {
+            query['difficulty'] = data.difficulty;
+        }
+        if (data.hasOwnProperty('kanjis') && data.kanjis.length !== 0) {
+            query['kanjis'] = { $all: data.kanjis };
         }
         return this.expressionModel.find(query).exec();
     }

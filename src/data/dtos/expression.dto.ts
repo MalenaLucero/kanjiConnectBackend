@@ -41,6 +41,12 @@ export class CreateExpressionDto {
     @IsArray()
     @IsNotEmpty()
     kanjis: string[];
+
+    @IsNumber()
+    @IsNotEmpty()
+    @Min(0)
+    @Max(5)
+    difficulty: number;
 }
 
 export class UpdateExpressionDto extends PartialType(
@@ -63,4 +69,14 @@ export class FilterExpressionsDto {
     @IsOptional()
     @IsArray()
     tags: Array<string>;
+
+    @IsOptional()
+    @IsArray()
+    kanjis: Array<string>;
+
+    @IsOptional()
+    @IsNumber()
+    @Min(0)
+    @Max(5)
+    difficulty: number;
 }
