@@ -10,6 +10,9 @@ import { KanjisService } from './services/kanjis/kanjis.service';
 import { Kanji, KanjiSchema } from './entities/kanji.entity';
 import { ExampleSentencesController } from './controllers/example-sentences/example-sentences.controller';
 import { ExampleSentencesService } from './services/example-sentences/example-sentences.service';
+import { UserKanjiController } from './controllers/user-kanji/user-kanji.controller';
+import { UserKanjiService } from './services/user-kanji/user-kanji.service';
+import { UserKanji, UserKanjiSchema } from './entities/user-kanji.entity';
 
 @Module({
     imports: [MongooseModule.forFeature([
@@ -19,10 +22,13 @@ import { ExampleSentencesService } from './services/example-sentences/example-se
         }, {
             name: Expression.name,
             schema: ExpressionSchema
+        }, {
+            name: UserKanji.name,
+            schema: UserKanjiSchema
         }
     ]), HttpModule],
-    controllers: [ExpressionsController, KanjisController, ExampleSentencesController],
-    providers: [ExpressionsService, KanjisService, ExampleSentencesService],
+    controllers: [ExpressionsController, KanjisController, ExampleSentencesController, UserKanjiController],
+    providers: [ExpressionsService, KanjisService, ExampleSentencesService, UserKanjiService],
     exports: [ExpressionsService]
 })
 export class DataModule {}
