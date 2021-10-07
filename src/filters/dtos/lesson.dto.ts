@@ -2,6 +2,10 @@ import { IsString, IsNotEmpty, IsDate, IsUrl, IsOptional, IsMongoId } from "clas
 import { PartialType } from "@nestjs/swagger";
 
 export class CreateLessonDto {
+    @IsMongoId()
+    @IsNotEmpty()
+    readonly user: string;
+    
     @IsDate()
     @IsNotEmpty()
     readonly date: Date;

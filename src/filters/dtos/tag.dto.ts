@@ -2,6 +2,10 @@ import { IsString, IsNotEmpty, IsMongoId, IsOptional } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
 
 export class CreateTagDto {
+    @IsMongoId()
+    @IsNotEmpty()
+    readonly user: string;
+    
     @IsString()
     @IsNotEmpty()
     readonly name: string;

@@ -12,34 +12,44 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('lessons')
-@Controller('filters/lessons')
+@Controller('lessons')
 export class LessonsController {
     constructor(private lessonsService: LessonsService) {}
 
+    @HttpCode(HttpStatus.ACCEPTED)
+    @Roles(Role.ADMIN)
+    @Get()
+    getLessons() {
+        return this.lessonsService.findAll();
+    }
+
     @Public()
-    @Get('search')
-    getLessonsByFilterOrUser(@Query() params: FilterLessonDto) {
-        if (params.filter) {
-            return this.lessonsService.findByFilter(params.filter)
-        } else if (params.user) {
-            return this.lessonsService.findByUser(params.user)
-        }
+    @Get(':id')
+    getLesson(@Param('id', MongoIdPipe) id: string) {
+        return this.lessonsService.findOne(id);
+    }
+
+    @Public()
+    @Get('user/:id')
+    getLessonsByUser(@Param('id', MongoIdPipe) id: string) {
+        return this.lessonsService.findByUser(id);
+    }
+
+    @Roles(Role.ADMIN)
+    @Post()
+    create(@Body() payload: CreateLessonDto) {
+        return this.lessonsService.create(payload);
     }
 
     @Roles(Role.ADMIN)
     @Put(':id')
-    addLesson(
-        @Param('id', MongoIdPipe) id: string,
-        @Body() payload: CreateLessonDto
-    ) {
-        return this.lessonsService.addLesson(id, payload);
+    update(@Param('id', MongoIdPipe) id: string, @Body() payload: UpdateLessonDto) {
+        return this.lessonsService.update(id, payload);
     }
-    
+
     @Roles(Role.ADMIN)
-    @Delete(':id/:lessonId')
-    deleteLesson(
-        @Param('id', MongoIdPipe) id: string, 
-        @Param('lessonId', MongoIdPipe) lessonId: string) {
-        return this.lessonsService.removeLesson(id, lessonId);
+    @Delete(':id')
+    delete(@Param('id', MongoIdPipe) id: string) {
+        return this.lessonsService.delete(id);
     }
 }

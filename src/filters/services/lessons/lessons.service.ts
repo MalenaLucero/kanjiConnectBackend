@@ -2,14 +2,52 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model, FilterQuery } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Filter } from 'src/filters/entities/filter.entity';
-import { CreateLessonDto } from 'src/filters/dtos/lesson.dto';
+import { Lesson } from 'src/filters/entities/lesson.entity';
+import { CreateLessonDto, UpdateLessonDto } from 'src/filters/dtos/lesson.dto';
 
 @Injectable()
 export class LessonsService {
-    constructor(@InjectModel(Filter.name) private filterModel: Model<Filter>) {}
+    constructor(@InjectModel(Lesson.name) private lessonModel: Model<Lesson>) {}
 
-    async findByFilter(id: string) {
+    findAll() {
+        return this.lessonModel.find().exec();
+    }
+
+    async findOne(id: string) {
+        const lesson = await this.lessonModel.findById(id).exec();
+        if (!lesson) {
+            throw new NotFoundException('Lesson with ID ' + id + ' not found');
+        }
+        return lesson;
+    }
+
+    async findByUser(id: string) {
+        const lessons = await this.lessonModel.find({ user: id }).exec();
+        if (!lessons) {
+            throw new NotFoundException('Lessons for user with ID ' + id + ' not found');
+        }
+        return lessons;
+    }
+
+    create(data: CreateLessonDto) {
+        const newLesson = new this.lessonModel(data);
+        return newLesson.save();
+    }
+
+    update(id: string, changes: UpdateLessonDto) {
+        const lesson = this.lessonModel.findByIdAndUpdate(id, { $set: changes }, { new: true }).exec();
+        if (!lesson) {
+            throw new NotFoundException(id);
+        }
+        return lesson;
+    }
+
+    delete(id: string) {
+        return this.lessonModel.findByIdAndDelete(id);
+    }
+
+
+    /*async findByFilter(id: string) {
         const filter = await this.filterModel.findById(id);
         return filter.lessons;
     }
@@ -29,5 +67,5 @@ export class LessonsService {
         const filter = await this.filterModel.findById(id);
         filter.lessons.pull(lessonId);
         return filter.save();
-    }
+    }*/
 }
