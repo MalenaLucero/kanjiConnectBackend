@@ -38,6 +38,12 @@ export class Expression extends Document {
 
     @Prop({ type: Number, required: true })
     difficulty: Number
+
+    @Prop({ type: Date, required: true })
+    created: Date
+
+    @Prop({ type: Date, required: true })
+    updated: Date
 }
 
 export const ExpressionSchema = SchemaFactory.createForClass(Expression);

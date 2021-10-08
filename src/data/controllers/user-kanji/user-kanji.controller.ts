@@ -2,7 +2,7 @@ import { Controller, Get, Param, Query, Post, Body, Put, Delete, HttpStatus, Htt
 import { ApiTags } from '@nestjs/swagger';
 
 import { UserKanjiService } from 'src/data/services/user-kanji/user-kanji.service';
-import { CreateUserKanjiDto, UpdateUserKanjiDto } from 'src/data/dtos/user-kanji.dto';
+import { CreateUserKanjiDto, FilterUserKanjiDto, UpdateUserKanjiDto } from 'src/data/dtos/user-kanji.dto';
 import { MongoIdPipe } from '../../../common/mongo-id.pipe';
 import { KanjisService } from 'src/data/services/kanjis/kanjis.service';
 import { Public } from 'src/auth/decorators/public.decorator';
@@ -35,8 +35,19 @@ export class UserKanjiController {
         return this.userKanjiService.findByUser(id);
     }
 
+    @Public()
+    @Get('user/:id/kanji/:kanjiId')
+    getKanjiByUserAndKanji(@Param('id', MongoIdPipe) id: string, @Param('kanjiId', MongoIdPipe) kanjiId: string) {
+        return this.userKanjiService.findByUserAndKanji(id, kanjiId);
+    }
+
+    @Public()
+    @Post('search')
+    async filter(@Body() payload: FilterUserKanjiDto) {
+        return await this.userKanjiService.filter(payload);
+    }
+
     @Roles(Role.ADMIN)
-    //@Public()
     @Post()
     async create(@Body() payload: CreateUserKanjiDto) {
         return this.userKanjiService.create(payload);

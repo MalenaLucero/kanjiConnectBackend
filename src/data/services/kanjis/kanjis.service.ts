@@ -29,6 +29,21 @@ export class KanjisService {
         return kanji;
     }
 
+    async filter(data: FilterKanjisDto) {
+        const query = {}
+        if (data.hasOwnProperty('kanji')) {
+            query['kanji'] = data.kanji;
+        }
+        if (data.hasOwnProperty('jlpt')) {
+            query['jlpt'] = data.jlpt;
+        }
+        const kanji = await this.kanjiModel.find(query).exec();
+        if (!kanji) {
+            throw new NotFoundException('Kanji ' + data.kanji + ' not found');
+        }
+        return kanji;
+    }
+
     findMany(kanjis: Array<string>) {
         return this.kanjiModel.find({
             'kanji': { $in: kanjis }

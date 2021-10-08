@@ -29,6 +29,12 @@ export class KanjisController {
         return this.kanjisService.findOne(id);
     }
 
+    @Public()
+    @Post('search')
+    getKanjiByKanji(@Body() payload: FilterKanjisDto) {
+        return this.kanjisService.filter(payload);
+    }
+
     @Roles(Role.ADMIN)
     @Post()
     create(@Body() payload: CreateKanjiDto) {

@@ -17,7 +17,13 @@ export class UserKanji extends Document {
     expressions: Types.Array<Expression>;
 
     @Prop({ type: Number, required: true })
-    difficulty: Number
+    difficulty: Number;
+
+    @Prop({ type: Date, required: true })
+    created: Date;
+
+    @Prop({ type: Date, required: true })
+    updated: Date;
 }
 
 export const UserKanjiSchema = SchemaFactory.createForClass(UserKanji);

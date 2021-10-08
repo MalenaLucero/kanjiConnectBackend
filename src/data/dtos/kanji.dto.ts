@@ -38,4 +38,12 @@ export class FilterKanjisDto {
     @IsOptional()
     @Min(0)
     offset: number;
+
+    @IsOptional()
+    @IsString()
+    kanji: string;
+
+    @IsOptional()
+    @IsNumber()
+    jlpt: number;
 }

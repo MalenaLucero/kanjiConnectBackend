@@ -10,13 +10,16 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/roles.model';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { UserKanjiService } from 'src/data/services/user-kanji/user-kanji.service';
+import { CreateUserKanjiDto, UpdateUserKanjiDto } from 'src/data/dtos/user-kanji.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('expressions')
 @Controller('expressions')
 export class ExpressionsController {
     constructor(private expressionsService: ExpressionsService,
-                private kanjisService: KanjisService) {}
+                private kanjisService: KanjisService,
+                private userKanjiService: UserKanjiService) {}
 
     @HttpCode(HttpStatus.ACCEPTED)
     @Public()
@@ -43,13 +46,15 @@ export class ExpressionsController {
         return this.expressionsService.filter(id, payload);
     }
 
-    @Roles(Role.ADMIN)
-    //@Public()
+    //@Roles(Role.ADMIN)
+    @Public()
     @Post()
     async create(@Body() payload: CreateExpressionDto) {
         const kanjisIds: Array<string> = await this.kanjisService.createFromWord(payload.word);
         payload.kanjis = kanjisIds;
-        return this.expressionsService.create(payload);
+        const expression = await this.expressionsService.create(payload);
+        await this.userKanjiService.createFromWord(kanjisIds, expression._id, payload.user);
+        return expression;
     }
 
     @Roles(Role.ADMIN)
