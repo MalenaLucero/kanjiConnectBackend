@@ -20,7 +20,7 @@ export class CreateUserKanjiDto {
     @IsNumber()
     @IsNotEmpty()
     @Min(0)
-    @Max(5)
+    @Max(10)
     difficulty: number;
 
     @IsDate()
@@ -44,7 +44,7 @@ export class FilterUserKanjiDto {
     @IsOptional()
     @IsNumber()
     @Min(0)
-    @Max(5)
+    @Max(10)
     difficulty;
 
     @IsMongoId()

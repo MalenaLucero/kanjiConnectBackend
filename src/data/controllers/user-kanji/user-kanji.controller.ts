@@ -42,7 +42,7 @@ export class UserKanjiController {
     }
 
     @Public()
-    @Post('search')
+    @Post('filter')
     async filter(@Body() payload: FilterUserKanjiDto) {
         return await this.userKanjiService.filter(payload);
     }

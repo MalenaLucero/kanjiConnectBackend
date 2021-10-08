@@ -45,7 +45,7 @@ export class CreateExpressionDto {
     @IsNumber()
     @IsNotEmpty()
     @Min(0)
-    @Max(5)
+    @Max(10)
     difficulty: number;
 
     @IsDate()
@@ -62,6 +62,10 @@ export class UpdateExpressionDto extends PartialType(
 ){}
 
 export class FilterExpressionsDto {
+    @IsMongoId()
+    @IsNotEmpty()
+    user: string;
+
     @IsOptional()
     @IsPositive()
     limit: number;
@@ -85,6 +89,6 @@ export class FilterExpressionsDto {
     @IsOptional()
     @IsNumber()
     @Min(0)
-    @Max(5)
+    @Max(10)
     difficulty: number;
 }

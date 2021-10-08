@@ -16,7 +16,7 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 export class KanjisController {
     constructor(private kanjisService: KanjisService) {}
 
-    @Roles(Role.ADMIN)
+    @Public()
     @HttpCode(HttpStatus.ACCEPTED)
     @Get()
     getKanjis(@Query() params: FilterKanjisDto) {
@@ -30,8 +30,8 @@ export class KanjisController {
     }
 
     @Public()
-    @Post('search')
-    getKanjiByKanji(@Body() payload: FilterKanjisDto) {
+    @Post('filter')
+    filter(@Body() payload: FilterKanjisDto) {
         return this.kanjisService.filter(payload);
     }
 

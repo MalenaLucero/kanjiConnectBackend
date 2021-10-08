@@ -64,13 +64,14 @@ export class UserKanjiService {
 
     async filterByExpressionsProperty(data: FilterUserKanjiDto) {
         const filterExpressions = new FilterExpressionsDto();
+        filterExpressions.user = data.user;
         if (data.hasOwnProperty('lesson')) {
             filterExpressions.lesson = data.lesson;
         }
         if (data.hasOwnProperty('tags')) {
             filterExpressions.tags = data.tags;
         }
-        const expressions = await this.expressionsService.filter(data.user, filterExpressions);
+        const expressions = await this.expressionsService.filter(filterExpressions);
         return expressions.map(e => e._id);
     }
 
@@ -96,7 +97,7 @@ export class UserKanjiService {
                     user: userId,
                     kanji: kanjisIds[i],
                     expressions: [expressionId],
-                    difficulty: 0,
+                    difficulty: 5,
                     created: new Date(),
                     updated: new Date()
                 }

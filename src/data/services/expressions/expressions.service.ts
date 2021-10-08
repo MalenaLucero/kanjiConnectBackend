@@ -34,8 +34,8 @@ export class ExpressionsService {
         return expressions;
     }
 
-    filter(id: string, data: FilterExpressionsDto) {
-        const query = { user: id }
+    filter(data: FilterExpressionsDto) {
+        const query = { user: data.user }
         if (data.hasOwnProperty('lesson') && data.lesson !== null && data.lesson.length !== 0) {
             query['lesson'] = data.lesson;
         }
