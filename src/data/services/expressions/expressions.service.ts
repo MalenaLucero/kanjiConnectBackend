@@ -9,17 +9,25 @@ import { CreateExpressionDto, UpdateExpressionDto, FilterExpressionsDto } from '
 export class ExpressionsService {
     constructor(@InjectModel(Expression.name) private expressionModel: Model<Expression>) {}
 
-    findAll(params?: FilterExpressionsDto) {
-        if(params) {
+    findAll() {
+        /*if(params) {
             const filters: FilterQuery<Expression> = {}
             const { limit, offset } = params;
             return this.expressionModel.find().skip(offset).limit(limit).exec();
-        }
-        return this.expressionModel.find().populate('user').exec();
+        }*/
+        return this.expressionModel.find()
+            .populate('kanjis', 'kanji')
+            .populate('tags', 'name')
+            .populate('lesson', 'topic')
+            .populate('user', 'username').exec();
     }
 
     async findOne(id: string) {
-        const expression = await this.expressionModel.findById(id).exec();
+        const expression = await this.expressionModel.findById(id)
+            .populate('kanjis', 'kanji')
+            .populate('tags', 'name')
+            .populate('lesson', 'topic')
+            .populate('user', 'username').exec();
         if (!expression) {
             throw new NotFoundException('Expression with id ' + id + ' not found');
         }
@@ -27,7 +35,11 @@ export class ExpressionsService {
     }
 
     async findByUser(id: string) {
-        const expressions = await this.expressionModel.find({ 'user': id }).exec();
+        const expressions = await this.expressionModel.find({ 'user': id })
+            .populate('kanjis', 'kanji')
+            .populate('tags', 'name')
+            .populate('lesson', 'topic')
+            .populate('user', 'username').exec();
         if (expressions.length === 0) {
             throw new NotFoundException('Expressions for user with ID ' + id + ' not found');
         }
@@ -48,7 +60,11 @@ export class ExpressionsService {
         if (data.hasOwnProperty('kanjis') && data.kanjis.length !== 0) {
             query['kanjis'] = { $all: data.kanjis };
         }
-        return this.expressionModel.find(query).exec();
+        return this.expressionModel.find(query)
+            .populate('kanjis', 'kanji')
+            .populate('tags', 'name')
+            .populate('lesson', 'topic')
+            .populate('user', 'username').exec();
     }
 
     create(data: CreateExpressionDto) {

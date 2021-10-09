@@ -24,8 +24,8 @@ export class ExpressionsController {
     @HttpCode(HttpStatus.ACCEPTED)
     @Public()
     @Get()
-    getExpressions(@Query() params: FilterExpressionsDto) {
-        return this.expressionsService.findAll(params);
+    getExpressions() {
+        return this.expressionsService.findAll();
     }
 
     @Public()

@@ -29,6 +29,14 @@ export class KanjisService {
         return kanji;
     }
 
+    async findOneByCharacter(character: string) {
+        const kanji = await this.kanjiModel.findOne({ kanji: character }).exec();
+        if (!kanji) {
+            throw new NotFoundException('Kanji ' + character + ' not found');
+        }
+        return kanji;
+    }
+
     async filter(data: FilterKanjisDto) {
         const query = {}
         if (data.hasOwnProperty('kanji')) {

@@ -1,4 +1,4 @@
-import { IsNumber, IsString, IsNotEmpty, IsArray, IsPositive, IsOptional, Min, Max, IsMongoId, IsDate } from "class-validator";
+import { IsNumber, IsString, IsNotEmpty, IsArray, IsPositive, IsOptional, Min, Max, IsMongoId, IsDate, MinLength } from "class-validator";
 import { PartialType, OmitType } from "@nestjs/swagger";
 import { Type } from 'class-transformer';
 
@@ -58,4 +58,9 @@ export class FilterUserKanjiDto {
     @IsNumber()
     @IsOptional()
     jlpt;
+
+    @IsString()
+    @IsOptional()
+    @MinLength(1)
+    kanjiAsCharacter;
 }

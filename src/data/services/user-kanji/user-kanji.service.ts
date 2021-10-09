@@ -18,13 +18,17 @@ export class UserKanjiService {
                 private kanjiService: KanjisService) {}
 
     findAll() {
-        return this.userKanjiModel.find().exec();
+        return this.userKanjiModel.find()
+            .populate('expressions', 'word')
+            .populate('kanji', 'kanji')
+            .populate('user', 'username').exec();
     }
 
     async findOne(id: string) {
         const kanji = await this.userKanjiModel.findById(id)
-            .populate('expressions')
-            .populate('kanji').exec();
+            .populate('expressions', 'word')
+            .populate('kanji', 'kanji')
+            .populate('user', 'username').exec();
         if (!kanji) {
             throw new NotFoundException('Kanji with id ' + id + ' not found');
         }
@@ -34,32 +38,45 @@ export class UserKanjiService {
     findByUser(id: string) {
         return this.userKanjiModel.find({
             'user': id
-        }).exec();
+        })
+            .populate('expressions', 'word')
+            .populate('kanji', 'kanji')
+            .populate('user', 'username').exec();
     }
 
     findByUserAndKanji(id: string, kanjiId: string) {
         return this.userKanjiModel.findOne({
             'user': id,
             'kanji': kanjiId
-        }).exec();
+        })
+            .populate('expressions', 'word')
+            .populate('kanji', 'kanji')
+            .populate('user', 'username').exec();
     }
 
     async filter(data: FilterUserKanjiDto) {
         const query = { user: data.user }
-        if (data.hasOwnProperty('difficulty')) {
-            query['difficulty'] = data.difficulty; 
+        if (data.hasOwnProperty('kanjiAsCharacter')) {
+            const kanji = await this.kanjiService.findOneByCharacter(data.kanjiAsCharacter);
+            query['kanji'] = kanji._id;
+        } else {
+            if (data.hasOwnProperty('difficulty')) {
+                query['difficulty'] = data.difficulty; 
+            }
+            if (data.hasOwnProperty('lesson') || data.hasOwnProperty('tags')) {
+                const expressionsId = await this.filterByExpressionsProperty(data)
+                query['expressions'] = { $in: expressionsId };
+            }
+            if (data.hasOwnProperty('jlpt')) {
+                const kanjisId = await this.filterByKanjisProperty(data);
+                query['kanji'] = { $in: kanjisId };
+            }
         }
-        if (data.hasOwnProperty('lesson') || data.hasOwnProperty('tags')) {
-            const expressionsId = await this.filterByExpressionsProperty(data)
-            query['expressions'] = { $in: expressionsId };
-        }
-        if (data.hasOwnProperty('jlpt')) {
-            const kanjisId = await this.filterByKanjisProperty(data);
-            query['kanji'] = { $in: kanjisId };
-        }
+        
         return this.userKanjiModel.find(query)
-            .populate('kanji')
-            .populate('expressions').exec();
+            .populate('kanji', 'kanji')
+            .populate('expressions', 'word')
+            .populate('user', 'username').exec();
     }
 
     async filterByExpressionsProperty(data: FilterUserKanjiDto) {
