@@ -4,6 +4,7 @@ import { Document, Types } from 'mongoose';
 import { User } from '../../users/entities/user.entity';
 import { Kanji } from '../entities/kanji.entity';
 import { Expression } from './expression.entity';
+import { difficultyLevels } from 'src/common/difficulty-levels';
 
 @Schema()
 export class UserKanji extends Document {
@@ -16,7 +17,7 @@ export class UserKanji extends Document {
     @Prop({ type: [{ type: Types.ObjectId, ref: Expression.name }] })
     expressions: Types.Array<Expression>;
 
-    @Prop({ type: Number, required: true })
+    @Prop({ type: Number, enum: difficultyLevels.range, default: difficultyLevels.default })
     difficulty: Number;
 
     @Prop({ type: Date, required: true })

@@ -3,6 +3,8 @@ import { PartialType, OmitType } from "@nestjs/swagger";
 import { Type } from 'class-transformer';
 
 import { CreateExampleSentenceDto } from "./example-sentence.dto";
+import { difficultyLevels } from "src/common/difficulty-levels";
+import { jlptLevels } from "src/common/jlpt-levels";
 
 export class CreateUserKanjiDto {
     @IsMongoId()
@@ -19,8 +21,8 @@ export class CreateUserKanjiDto {
 
     @IsNumber()
     @IsNotEmpty()
-    @Min(0)
-    @Max(10)
+    @Min(difficultyLevels.min)
+    @Max(difficultyLevels.max)
     difficulty: number;
 
     @IsDate()
@@ -43,8 +45,8 @@ export class FilterUserKanjiDto {
 
     @IsOptional()
     @IsNumber()
-    @Min(0)
-    @Max(10)
+    @Min(difficultyLevels.min)
+    @Max(difficultyLevels.max)
     difficulty;
 
     @IsMongoId()
@@ -57,6 +59,8 @@ export class FilterUserKanjiDto {
 
     @IsNumber()
     @IsOptional()
+    @Min(jlptLevels.min)
+    @Max(jlptLevels.max)
     jlpt;
 
     @IsString()

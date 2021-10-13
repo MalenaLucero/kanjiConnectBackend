@@ -3,6 +3,8 @@ import { PartialType, OmitType } from "@nestjs/swagger";
 import { Type } from 'class-transformer';
 
 import { CreateExampleSentenceDto } from "./example-sentence.dto";
+import { difficultyLevels } from "src/common/difficulty-levels";
+import { jlptLevels } from "src/common/jlpt-levels";
 
 export class CreateExpressionDto {
     @IsString()
@@ -20,6 +22,16 @@ export class CreateExpressionDto {
     @IsArray()
     @IsOptional()
     readonly japaneseMeaning: Array<string>;
+
+    @IsNumber()
+    @IsOptional()
+    @Min(jlptLevels.min)
+    @Max(jlptLevels.max)
+    readonly jlpt: number;
+
+    @IsString()
+    @IsOptional()
+    readonly transitivity: string;
 
     @IsArray()
     @IsOptional()
@@ -43,9 +55,9 @@ export class CreateExpressionDto {
     kanjis: string[];
 
     @IsNumber()
-    @IsNotEmpty()
-    @Min(0)
-    @Max(10)
+    @IsOptional()
+    @Min(difficultyLevels.min)
+    @Max(difficultyLevels.max)
     difficulty: number;
 
     @IsDate()
@@ -88,7 +100,7 @@ export class FilterExpressionsDto {
 
     @IsOptional()
     @IsNumber()
-    @Min(0)
-    @Max(10)
+    @Min(difficultyLevels.min)
+    @Max(difficultyLevels.max)
     difficulty: number;
 }

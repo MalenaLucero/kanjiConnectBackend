@@ -11,7 +11,7 @@ import { Role } from 'src/auth/models/roles.model';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { UserKanjiService } from 'src/data/services/user-kanji/user-kanji.service';
-import { CreateUserKanjiDto, UpdateUserKanjiDto } from 'src/data/dtos/user-kanji.dto';
+import { CreateUserKanjiDto, UpdateUserKanjiDto } from 'src/data/dtos/user-kanji.dto'
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('expressions')
@@ -66,5 +66,11 @@ export class ExpressionsController {
     @Delete(':id')
     delete(@Param('id', MongoIdPipe) id: string) {
         return this.expressionsService.delete(id);
+    }
+
+    @Public()
+    @Get('external-data/:word')
+    getExpressionDataFromExternalApi(@Param('word') word: string) {
+        return this.expressionsService.getExpressionDataFromExternalApi(word);
     }
 }

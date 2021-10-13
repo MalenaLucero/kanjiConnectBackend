@@ -6,6 +6,8 @@ import { Kanji } from '../entities/kanji.entity';
 import { Tag } from '../../filters/entities/tag.entity';
 import { ExampleSentenceSchema } from './example-sentence.entity';
 import { Lesson } from 'src/filters/entities/lesson.entity';
+import { jlptLevels } from 'src/common/jlpt-levels';
+import { difficultyLevels } from 'src/common/difficulty-levels';
 
 @Schema()
 export class Expression extends Document {
@@ -24,6 +26,12 @@ export class Expression extends Document {
     @Prop({ type: [ExampleSentenceSchema] })
     exampleSentences: Types.Array<Record<string, any>>
 
+    @Prop({ type: Number, enum: jlptLevels.range, default: jlptLevels.default })
+    jlpt: number;
+
+    @Prop({ type: String, enum: ['transitive', 'intransitive', null], default: null })
+    transitivity: string;
+
     @Prop({ type: [{ type: Types.ObjectId, ref: Tag.name }] })
     tags: Types.Array<Tag>;
 
@@ -36,7 +44,7 @@ export class Expression extends Document {
     @Prop({ type: [{ type: Types.ObjectId, ref: Kanji.name }]})
     kanjis: Types.Array<Kanji>
 
-    @Prop({ type: Number, required: true })
+    @Prop({ type: Number, enum: difficultyLevels.range, default: difficultyLevels.default })
     difficulty: Number
 
     @Prop({ type: Date, required: true })

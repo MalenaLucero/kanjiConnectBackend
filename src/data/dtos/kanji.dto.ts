@@ -1,21 +1,22 @@
 import { IsNumber, IsString, IsNotEmpty, IsArray, IsPositive, IsOptional, Min, Max } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
 
+import { jlptLevels } from "src/common/jlpt-levels";
+import { gradeLevels } from "src/common/grade-levels";
+
 export class CreateKanjiDto {
     @IsString()
     @IsNotEmpty()
     readonly kanji: string;
 
     @IsNumber()
-    @IsPositive()
-    @Min(1)
-    @Max(4)
+    @Min(jlptLevels.min)
+    @Max(jlptLevels.max)
     readonly jlpt: number;
 
     @IsNumber()
-    @IsPositive()
-    @Min(1)
-    @Max(8)
+    @Min(gradeLevels.min)
+    @Max(gradeLevels.max)
     readonly grade: number;
 
     @IsArray()
@@ -45,5 +46,7 @@ export class FilterKanjisDto {
 
     @IsOptional()
     @IsNumber()
+    @Min(jlptLevels.min)
+    @Max(jlptLevels.max)
     jlpt: number;
 }

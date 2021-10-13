@@ -1,13 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model, FilterQuery, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { HttpService } from '@nestjs/axios';
+import { AxiosResponse } from 'axios';
+import { map } from 'rxjs';
 
 import { Expression } from 'src/data/entities/expression.entity';
 import { CreateExpressionDto, UpdateExpressionDto, FilterExpressionsDto } from 'src/data/dtos/expression.dto';
+import { jlptJishoTextToInteger } from './../../../common/jlpt-levels';
 
 @Injectable()
 export class ExpressionsService {
-    constructor(@InjectModel(Expression.name) private expressionModel: Model<Expression>) {}
+    constructor(@InjectModel(Expression.name) private expressionModel: Model<Expression>,
+                private httpService: HttpService) {}
 
     findAll() {
         /*if(params) {
@@ -82,5 +87,30 @@ export class ExpressionsService {
 
     delete(id: string) {
         return this.expressionModel.findByIdAndDelete(id);
+    }
+
+    getExpressionDataFromExternalApi(word: string) {
+        const URI = 'https://jisho.org/api/v1/search/words?keyword=' + word;
+        const encodedURI = encodeURI(URI);
+        return this.httpService.get(encodedURI).pipe(
+            map((axiosResponse: AxiosResponse) => {
+                const response = axiosResponse.data.data;
+                return response.map(e => {
+                    let transitivity = null;
+                    if (e.senses[0].parts_of_speech.includes('Intransitive verb')) {
+                        transitivity = 'intransitive';
+                    } else if (e.senses[0].parts_of_speech.includes('Transitive verb')) {
+                        transitivity = 'transitive';
+                    }
+                    return {
+                        word: e.japanese[0].word,
+                        reading: e.japanese[0].reading,
+                        englishMeaning: e.senses.map(sense => sense.english_definitions.join(', ')),
+                        jlpt: e.jlpt[0] ? jlptJishoTextToInteger(e.jlpt[0]) : null,
+                        transitivity: transitivity
+                    } 
+                })
+            }),
+        );
     }
 }

@@ -1,15 +1,17 @@
 import { Prop, Schema, SchemaFactory  } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+import { jlptLevels } from './../../common/jlpt-levels';
+import { gradeLevels } from './../../common/grade-levels';
 @Schema()
 export class Kanji extends Document{
     @Prop({ type: String, required: true, unique: true })
     kanji: string;
 
-    @Prop({ type: Number })
+    @Prop({ type: Number, enum: jlptLevels.range, default: jlptLevels.default })
     jlpt: number;
 
-    @Prop({ type: Number })
+    @Prop({ type: Number, enum: gradeLevels.range, default: gradeLevels.default })
     grade: number;
 
     @Prop({ type: [String] })
