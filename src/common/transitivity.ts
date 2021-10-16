@@ -1,0 +1,1 @@
+export const transitivityValues = ['transitive', 'intransitive', null];

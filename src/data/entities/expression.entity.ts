@@ -1,3 +1,4 @@
+import { transitivityValues } from './../../common/transitivity';
 import { Prop, Schema, SchemaFactory  } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
@@ -29,7 +30,7 @@ export class Expression extends Document {
     @Prop({ type: Number, enum: jlptLevels.range, default: jlptLevels.default })
     jlpt: number;
 
-    @Prop({ type: String, enum: ['transitive', 'intransitive', null], default: null })
+    @Prop({ type: String, enum: transitivityValues, default: null })
     transitivity: string;
 
     @Prop({ type: [{ type: Types.ObjectId, ref: Tag.name }] })
