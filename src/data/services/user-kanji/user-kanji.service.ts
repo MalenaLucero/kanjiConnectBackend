@@ -74,9 +74,8 @@ export class UserKanjiService {
         }
         
         return this.userKanjiModel.find(query)
-            .populate('kanji', 'kanji')
-            .populate('expressions', 'word')
-            .populate('user', 'username').exec();
+            .populate('kanji')
+            .populate('expressions').exec();
     }
 
     async filterByExpressionsProperty(data: FilterUserKanjiDto) {
