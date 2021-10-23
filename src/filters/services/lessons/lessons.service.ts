@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import { Lesson } from 'src/filters/entities/lesson.entity';
 import { CreateLessonDto, UpdateLessonDto } from 'src/filters/dtos/lesson.dto';
+import { CreateSourceDto } from './../../dtos/source.dto';
 
 @Injectable()
 export class LessonsService {
@@ -46,7 +47,18 @@ export class LessonsService {
         return this.lessonModel.findByIdAndDelete(id);
     }
 
+    async addSource(id: string, source: CreateSourceDto) {
+        const lesson = await this.lessonModel.findById(id);
+        lesson.sources.push(source);
+        return lesson.save();
+    }
 
+    async deleteSource(id: string, sourceId: string) {
+        const lesson = await this.lessonModel.findById(id);
+        lesson.sources.pull(sourceId);
+        return lesson.save();
+    }
+    
     /*async findByFilter(id: string) {
         const filter = await this.filterModel.findById(id);
         return filter.lessons;
@@ -55,17 +67,5 @@ export class LessonsService {
     async findByUser(id: string) {
         const filter = await this.filterModel.findOne({ user: id });
         return filter.lessons;
-    }
-
-    async addLesson(id: string, lesson: CreateLessonDto) {
-        const filter = await this.filterModel.findById(id);
-        filter.lessons.push(lesson);
-        return filter.save();
-    }
-
-    async removeLesson(id: string, lessonId: string) {
-        const filter = await this.filterModel.findById(id);
-        filter.lessons.pull(lessonId);
-        return filter.save();
     }*/
 }

@@ -9,6 +9,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/roles.model';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { CreateSourceDto } from 'src/filters/dtos/source.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('lessons')
@@ -51,5 +52,17 @@ export class LessonsController {
     @Delete(':id')
     delete(@Param('id', MongoIdPipe) id: string) {
         return this.lessonsService.delete(id);
+    }
+
+    @Roles(Role.ADMIN)
+    @Put('source/:id')
+    addSource(@Param('id', MongoIdPipe) id: string, @Body() payload: CreateSourceDto) {
+        return this.lessonsService.addSource(id, payload);
+    }
+
+    @Roles(Role.ADMIN)
+    @Delete(':id/source/:sourceId')
+    deleteSource(@Param('id', MongoIdPipe) id: string, @Param('sourceId', MongoIdPipe) sourceId: string) {
+        return this.lessonsService.deleteSource(id, sourceId);
     }
 }

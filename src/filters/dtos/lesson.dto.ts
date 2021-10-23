@@ -1,5 +1,7 @@
-import { IsString, IsNotEmpty, IsDate, IsUrl, IsOptional, IsMongoId } from "class-validator";
+import { IsString, IsNotEmpty, IsDate, IsUrl, IsOptional, IsMongoId, IsArray } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
+import { Type } from 'class-transformer';
+import { CreateSourceDto } from "./source.dto";
 
 export class CreateLessonDto {
     @IsMongoId()
@@ -15,6 +17,11 @@ export class CreateLessonDto {
 
     @IsUrl()
     readonly link: string;
+
+    @IsArray()
+    @IsOptional()
+    @Type(() => CreateSourceDto)
+    readonly lessons: CreateSourceDto[];
 }
 
 export class UpdateLessonDto extends PartialType(CreateLessonDto){}
