@@ -66,7 +66,7 @@ export class ExpressionsService {
             query['kanjis'] = { $all: data.kanjis };
         }
         if (data.hasOwnProperty('source')) {
-            query['exampleSentences'] = { $elemMatch: { _id: data.source }};
+            query['exampleSentences'] = { $elemMatch: { source: data.source }};
         }
         return this.expressionModel.find(query)
             .populate('kanjis', 'kanji')
