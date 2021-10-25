@@ -63,7 +63,7 @@ export class UserKanjiService {
             if (data.hasOwnProperty('difficulty')) {
                 query['difficulty'] = data.difficulty; 
             }
-            if (data.hasOwnProperty('lesson') || data.hasOwnProperty('tags')) {
+            if (data.hasOwnProperty('lesson') || data.hasOwnProperty('tags') || data.hasOwnProperty('source')) {
                 const expressionsId = await this.filterByExpressionsProperty(data)
                 query['expressions'] = { $in: expressionsId };
             }
@@ -86,6 +86,9 @@ export class UserKanjiService {
         }
         if (data.hasOwnProperty('tags')) {
             filterExpressions.tags = data.tags;
+        }
+        if (data.hasOwnProperty('source')) {
+            filterExpressions.source = data.source;
         }
         const expressions = await this.expressionsService.filter(filterExpressions);
         return expressions.map(e => e._id);

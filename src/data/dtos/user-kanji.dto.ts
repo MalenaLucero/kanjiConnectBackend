@@ -67,4 +67,8 @@ export class FilterUserKanjiDto {
     @IsOptional()
     @MinLength(1)
     kanjiAsCharacter;
+
+    @IsMongoId()
+    @IsOptional()
+    source;
 }

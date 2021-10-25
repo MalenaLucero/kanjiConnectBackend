@@ -68,6 +68,9 @@ export class ExpressionsService {
         if (data.hasOwnProperty('source')) {
             query['exampleSentences'] = { $elemMatch: { source: data.source }};
         }
+        if (data.hasOwnProperty('transitivity')) {
+            query['transitivity'] = data.transitivity;
+        }
         return this.expressionModel.find(query)
             .populate('kanjis', 'kanji')
             .populate('tags', 'name')

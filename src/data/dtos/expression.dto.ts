@@ -104,7 +104,11 @@ export class FilterExpressionsDto {
     @Max(difficultyLevels.max)
     difficulty: number;
 
-    @IsMongoId()
+    @IsString()
     @IsOptional()
     source: string;
+
+    @IsString()
+    @IsOptional()
+    transitivity: string;
 }
