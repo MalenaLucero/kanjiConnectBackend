@@ -71,6 +71,9 @@ export class ExpressionsService {
         if (data.hasOwnProperty('transitivity')) {
             query['transitivity'] = data.transitivity;
         }
+        if (data.hasOwnProperty('jlpt')) {
+            query['jlpt'] = data.jlpt;
+        }
         return this.expressionModel.find(query)
             .populate('kanjis', 'kanji')
             .populate('tags', 'name')

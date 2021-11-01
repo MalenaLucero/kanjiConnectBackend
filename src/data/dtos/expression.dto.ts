@@ -111,4 +111,10 @@ export class FilterExpressionsDto {
     @IsString()
     @IsOptional()
     transitivity: string;
+
+    @IsNumber()
+    @IsOptional()
+    @Min(jlptLevels.min)
+    @Max(jlptLevels.max)
+    jlpt: number;
 }
