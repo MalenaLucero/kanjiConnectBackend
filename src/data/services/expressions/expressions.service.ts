@@ -8,6 +8,7 @@ import { map } from 'rxjs';
 import { Expression } from 'src/data/entities/expression.entity';
 import { CreateExpressionDto, UpdateExpressionDto, FilterExpressionsDto } from 'src/data/dtos/expression.dto';
 import { jlptJishoTextToInteger } from './../../../common/jlpt-levels';
+import { Sense } from 'src/data/entities/jisho.entities';
 
 @Injectable()
 export class ExpressionsService {
@@ -114,12 +115,20 @@ export class ExpressionsService {
                     return {
                         word: e.japanese[0].word,
                         reading: e.japanese[0].reading,
-                        englishMeaning: e.senses.map(sense => sense.english_definitions.join(', ')),
+                        englishMeaning: this.filterEnglishMeaning(e.senses),
                         jlpt: e.jlpt[0] ? jlptJishoTextToInteger(e.jlpt[0]) : null,
                         transitivity: transitivity
                     } 
                 })
             }),
         );
+    }
+
+    filterEnglishMeaning(senses: Sense[]) {
+        const englishMeanings: string[] =  senses.map(e => 
+            e.english_definitions.join(', ').toLowerCase()
+        )
+        const uniqueMeanings: string [] = Array.from(new Set(englishMeanings))
+        return uniqueMeanings;
     }
 }
