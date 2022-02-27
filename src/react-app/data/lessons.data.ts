@@ -7,6 +7,6 @@ export const LESSONS: Lesson[] = [
         date: new Date(),
         nextLessonDate: new Date(),
         _languageId: 1,
-        _sectionsId: [11, 12, 13]
+        _sectionsId: [101, 102, 103, 104, 105, 106]
     }
 ]
