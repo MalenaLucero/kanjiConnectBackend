@@ -12,6 +12,7 @@ import { environments } from './environments';
 import { UsersModule } from './users/users.module';
 import { FiltersModule } from './filters/filters.module';
 import { AuthModule } from './auth/auth.module';
+import { ReactAppModule } from './react-app/react-app.module';
 import config from './config';
 
 @Module({
@@ -27,7 +28,7 @@ import config from './config';
       API_KEY: Joi.string().required(),
       JWT_SECRET: Joi.string().required()
     })
-  }), DataModule, DatabaseModule, UsersModule, FiltersModule, AuthModule],
+  }), DataModule, DatabaseModule, UsersModule, FiltersModule, AuthModule, ReactAppModule],
   controllers: [AppController],
   providers: [AppService],
 })
