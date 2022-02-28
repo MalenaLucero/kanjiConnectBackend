@@ -1,3 +1,4 @@
+import { LESSON_1_SECTIONS } from './sections/lesson1sections.data';
 import { Lesson } from "../entities/lesson.entity";
 
 export const LESSONS: Lesson[] = [
@@ -7,6 +8,6 @@ export const LESSONS: Lesson[] = [
         date: new Date(),
         nextLessonDate: new Date(),
         _languageId: 1,
-        _sectionsId: [101, 102, 103, 104, 105, 106]
+        sections: LESSON_1_SECTIONS
     }
 ]

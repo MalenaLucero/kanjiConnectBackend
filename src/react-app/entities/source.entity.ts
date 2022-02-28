@@ -1,3 +1,8 @@
+interface sectionObject {
+    _id?: number,
+    name: string
+}
+
 export interface Source {
     _id: number,
     name: string,
@@ -5,5 +10,6 @@ export interface Source {
     size?: number,
     _languageId: number,
     _areaId: number,
-    _sectionsId: Array<number | string>
+    sections: Array<sectionObject>,
+    progress?: number
 }
