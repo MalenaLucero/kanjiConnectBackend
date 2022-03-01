@@ -1,11 +1,10 @@
 import { Source } from "../entities/source.entity";
 
-export const SOURCES: Source[] = [
+export const JAPANESE_SOURCES: Source[] = [
     {
         _id: 1,
         name: 'Try N1',
         link: '',
-        _languageId: 1,
         _areaId: 1,
         sections: [{
             _id: 101,
@@ -45,7 +44,6 @@ export const SOURCES: Source[] = [
         _id: 2,
         name: 'JavaScript超入門コース',
         link: 'https://www.youtube.com/watch?v=_ExoqS3s17Y&list=PLavQwENTsEBVkrFMHDYs-EatjsxyoNNO-',
-        _languageId: 1,
         _areaId: 2,
         sections: [
             {
@@ -84,7 +82,6 @@ export const SOURCES: Source[] = [
         name: 'コーヒーが冷めないうちに',
         link: '',
         size: 5,
-        _languageId: 1,
         _areaId: 3,
         sections: [
             { 
@@ -103,7 +100,6 @@ export const SOURCES: Source[] = [
         _id: 4,
         name: '中級へ行こう',
         link: '',
-        _languageId: 1,
         _areaId: 5,
         sections: [
             {
@@ -134,7 +130,6 @@ export const SOURCES: Source[] = [
         _id: 5,
         name: 'フレデリック 「ケンジとコウジのソウセイジカン」',
         link: 'https://www.youtube.com/watch?v=U_jykjGsFu0&list=PLdkuu8lINVU5oVGLU46ysqeqDlabD5OiD',
-        _languageId: 1,
         _areaId: 4,
         sections: [
             { 

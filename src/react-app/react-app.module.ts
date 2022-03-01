@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
-import { JapaneseController } from './controllers/japanese.controller';
-import { KoreanController } from './controllers/korean.controller';
-import { JapaneseService } from './services/japanese.service';
-import { KoreanService } from './services/korean.service';
+import { ReactAppController } from './controllers/react-app.controller';
+import { ReactAppService } from './services/react-app.service';
 
 @Module({
-  controllers: [JapaneseController, KoreanController],
-  providers: [JapaneseService, KoreanService]
+  controllers: [ReactAppController],
+  providers: [ReactAppService]
 })
 export class ReactAppModule {}

@@ -8,7 +8,6 @@ export interface Source {
     name: string,
     link: string,
     size?: number,
-    _languageId: number,
     _areaId: number,
     sections: Array<sectionObject>,
     progress?: number

@@ -1,6 +1,6 @@
 import { Lyric } from "../entities/lyric.entity";
 
-export const LYRICS: Lyric[] = [
+export const JAPANESE_LYRICS: Lyric[] = [
     {
         _id: 1,
         title: 'Chills?',

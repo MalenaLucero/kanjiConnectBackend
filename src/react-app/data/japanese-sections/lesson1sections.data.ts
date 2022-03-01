@@ -1,6 +1,6 @@
 import { Section } from "src/react-app/entities/section.entity";
 
-export const LESSON_1_SECTIONS: Section[] = [
+export const JAPANESE_LESSON_1_SECTIONS: Section[] = [
     {
         _id: 101,
         link: '',
