@@ -16,5 +16,11 @@ export class ReactAppController {
     getLessonState(@Query('language', ParseIntPipe) languageId: number) {
         return this.service.getLessonState(languageId);
     }
+
+    @Get('lesson-section')
+    getLessonSection(@Query('language', ParseIntPipe) languageId: number,
+                    @Query('section', ParseIntPipe) sectionId: number) {
+        return this.service.getLessonSectionById(languageId, sectionId);
+    }
 }
 

@@ -29,17 +29,22 @@ export class ReactAppService {
     }
 
     getLessonState(languageId: number) {
-        if (languageId === 1) {
-            return {
-                lesson: this.generateLastLessonObject(JAPANESE_LESSONS, JAPANESE_SOURCES),
-                areasSourcesAndSections: this.generateAreaWithSourcesObject(AREAS, JAPANESE_SOURCES)
-            }
-        } else {
-            return {
-                lesson: this.generateLastLessonObject(KOREAN_LESSONS, KOREAN_SOURCES),
-                areasSourcesAndSections: this.generateAreaWithSourcesObject(AREAS, KOREAN_SOURCES)
-            }
+        const lessons = languageId === 1 ? JAPANESE_LESSONS : KOREAN_LESSONS;
+        const sources = languageId === 1 ? JAPANESE_SOURCES : KOREAN_SOURCES;
+        
+        return {
+            lesson: this.generateLastLessonObject(lessons, sources),
+            areasSourcesAndSections: this.generateAreaWithSourcesObject(AREAS, sources)
         }
+       
+    }
+
+    getLessonSectionById(languageId: number, sectionId: number) {
+        const lessons = languageId === 1 ? JAPANESE_LESSONS : KOREAN_LESSONS;
+        const lessonId = this.getLessonIdFromSectionId(sectionId);
+        const section = lessons.find(lesson => lesson._id === lessonId).sections
+                                .find(section => section._id === sectionId)
+        return section;
     }
 
     generateLastLessonObject(lessons: Lesson[], sources: Source[]) {
@@ -73,5 +78,13 @@ export class ReactAppService {
             }
         })
         return sourcesWithProgress;
+    }
+
+    getLessonIdFromSectionId(sectionId: number): number {
+        const sectionIdString = String(sectionId)
+        const lessonId = sectionIdString.length === 3
+            ? sectionIdString[0]
+            : sectionIdString.substring(0, 2);
+        return parseInt(lessonId, 10);
     }
 }
