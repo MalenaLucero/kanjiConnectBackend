@@ -67,5 +67,23 @@ export const JAPANESE_LESSON_1_SECTIONS: Section[] = [
         title: '第四課　インターネットの利用',
         _sourceId: 4,
         state: 'done'
+    }, {
+        _id: 112,
+        link: 'https://docs.google.com/document/d/1j-VuNtxvSSHxEOp0LT-Cp5DJbG5tKTCbDiPC2EDzQss/edit#heading=h.l0cslt7wd53',
+        title: '07.データ型 ｜変数に入れるデータの種類のことです',
+        _sourceId: 2,
+        state: 'done'
+    }, {
+        _id: 113,
+        link: 'https://docs.google.com/document/d/1j-VuNtxvSSHxEOp0LT-Cp5DJbG5tKTCbDiPC2EDzQss/edit#heading=h.p6dglpsiyo0u',
+        title: '第五課　睡眠',
+        _sourceId: 4,
+        state: 'done'
+    }, {
+        _id: 114,
+        link: 'https://docs.google.com/document/d/1j-VuNtxvSSHxEOp0LT-Cp5DJbG5tKTCbDiPC2EDzQss/edit#heading=h.xuekxkg2fzq',
+        title: '第六課　日本人の発明',
+        _sourceId: 4,
+        state: 'done'
     }
 ]
