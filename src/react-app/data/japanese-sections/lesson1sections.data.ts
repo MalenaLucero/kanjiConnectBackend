@@ -85,5 +85,47 @@ export const JAPANESE_LESSON_1_SECTIONS: Section[] = [
         title: '第六課　日本人の発明',
         _sourceId: 4,
         state: 'done'
+    }, {
+        _id: 115,
+        link: 'https://docs.google.com/document/d/1j-VuNtxvSSHxEOp0LT-Cp5DJbG5tKTCbDiPC2EDzQss/edit#heading=h.thay8ogp5pqn',
+        title: '08.配列｜変数を箱。配列をロッカーに例えて解説します',
+        _sourceId: 2,
+        state: 'done'
+    }, {
+        _id: 116,
+        link: 'https://docs.google.com/document/d/1j-VuNtxvSSHxEOp0LT-Cp5DJbG5tKTCbDiPC2EDzQss/edit#heading=h.30w6wvbf0pa0',
+        title: '第七課　リサイクルとフリーマーケット',
+        _sourceId: 4,
+        state: 'done'
+    }, {
+        _id: 117,
+        link: 'https://docs.google.com/document/d/1j-VuNtxvSSHxEOp0LT-Cp5DJbG5tKTCbDiPC2EDzQss/edit#heading=h.gvqujgzcjzgo',
+        title: '第八課　あいづち',
+        _sourceId: 4,
+        state: 'done'
+    }, {
+        _id: 118,
+        link: 'https://docs.google.com/document/d/1j-VuNtxvSSHxEOp0LT-Cp5DJbG5tKTCbDiPC2EDzQss/edit#heading=h.q8vut5acj18e',
+        title: '3 飯食わぬ女房 (1)',
+        _sourceId: 1,
+        state: 'done'
+    }, {
+        _id: 119,
+        link: 'https://docs.google.com/document/d/1j-VuNtxvSSHxEOp0LT-Cp5DJbG5tKTCbDiPC2EDzQss/edit#heading=h.9i7j1lchyzvj',
+        title: '3 飯食わぬ女房 (2)',
+        _sourceId: 1,
+        state: 'done'
+    }, {
+        _id: 120,
+        link: 'https://docs.google.com/document/d/1j-VuNtxvSSHxEOp0LT-Cp5DJbG5tKTCbDiPC2EDzQss/edit#heading=h.t3bm00ltzk3p',
+        title: '第九課　男の仕事・女の仕事',
+        _sourceId: 4,
+        state: 'done'
+    }, {
+        _id: 121,
+        link: 'https://docs.google.com/document/d/1j-VuNtxvSSHxEOp0LT-Cp5DJbG5tKTCbDiPC2EDzQss/edit#heading=h.w6o1h5oui7er',
+        title: '第十課　ことばの使い方',
+        _sourceId: 4,
+        state: 'done'
     }
 ]

@@ -13,8 +13,10 @@ export const JAPANESE_SOURCES: Source[] = [
             _id: 107,
             name: '2 産業医を増やそう'
         }, { 
+            _id: 118,
             name: '3 飯食わぬ女房 (1)'
         }, { 
+            _id: 119,
             name: '3 飯食わぬ女房 (2)'
         }, { 
             name: '4 上司との付き合い方 (1)'
@@ -125,12 +127,16 @@ export const JAPANESE_SOURCES: Source[] = [
                 _id: 114,
                 name: '第六課　日本人の発明'
             }, { 
+                _id: 116,
                 name: '第七課　リサイクルとフリーマーケット'
             }, { 
+                _id: 117,
                 name: '第八課　あいづち'
             }, { 
+                _id: 120,
                 name: '第九課　男の仕事・女の仕事'
             }, { 
+                _id: 121,
                 name: '第十課　ことばの使い方'
             }
         ]

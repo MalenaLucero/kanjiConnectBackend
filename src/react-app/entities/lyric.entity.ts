@@ -1,3 +1,10 @@
+interface vocabularyItem {
+    word: string,
+    infinitive: string | null,
+    reading: string | null,
+    meaning: string
+}
+
 export interface Lyric {
     _id: number,
     title: string,
@@ -5,5 +12,6 @@ export interface Lyric {
     link: string,
     studyLink: string,
     _languageId: number,
-    segment: string[]
+    segment: string[], 
+    vocabulary: vocabularyItem[]
 }
