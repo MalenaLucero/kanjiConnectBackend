@@ -72,10 +72,16 @@ export class UserKanjiService {
                 query['kanji'] = { $in: kanjisId };
             }
         }
+
+        const result = await this.userKanjiModel.find(query)
+                        .populate('kanji')
+                        .populate('expressions').exec()
         
-        return this.userKanjiModel.find(query)
-            .populate('kanji')
-            .populate('expressions').exec();
+        if (data.hasOwnProperty('kanjiList')) {
+            return result.filter(e => data.kanjiList.includes(e.kanji['kanji']));
+        } else {
+            return result;
+        }
     }
 
     async filterByExpressionsProperty(data: FilterUserKanjiDto) {

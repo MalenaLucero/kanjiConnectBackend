@@ -71,4 +71,8 @@ export class FilterUserKanjiDto {
     @IsMongoId()
     @IsOptional()
     source;
+
+    @IsArray()
+    @IsOptional()
+    kanjiList;
 }
