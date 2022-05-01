@@ -78,7 +78,11 @@ export class UserKanjiService {
                         .populate('expressions').exec();
         
         if (data.hasOwnProperty('kanjiList')) {
-            return result.filter(e => data.kanjiList.includes(e.kanji['kanji']));
+            return result.filter(e => {
+                if ('kanji' in e && data.kanjiList.includes(e.kanji['kanji'])) {
+                    return e;
+                }
+            });
         } else {
             return result;
         }
