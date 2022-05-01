@@ -75,7 +75,7 @@ export class UserKanjiService {
 
         const result = await this.userKanjiModel.find(query)
                         .populate('kanji')
-                        .populate('expressions').exec()
+                        .populate('expressions').exec();
         
         if (data.hasOwnProperty('kanjiList')) {
             return result.filter(e => data.kanjiList.includes(e.kanji['kanji']));
