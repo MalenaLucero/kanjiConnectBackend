@@ -79,7 +79,7 @@ export class UserKanjiService {
         
         if (data.hasOwnProperty('kanjiList')) {
             return result.filter(e => {
-                if ('kanji' in e && data.kanjiList.includes(e.kanji['kanji'])) {
+                if ('kanji' in e && 'kanji' in e.kanji && data.kanjiList.includes(e.kanji['kanji'])) {
                     return e;
                 }
             });
