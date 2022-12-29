@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsMongoId, IsOptional } from "class-validator";
+import { IsString, IsNotEmpty, IsMongoId, IsOptional, IsNumber } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
 
 export class CreateTagDto {
@@ -12,6 +12,10 @@ export class CreateTagDto {
     
     @IsString()
     readonly description: string;
+
+    @IsNumber()
+    @IsNotEmpty()
+    readonly color: number;
 }
 
 export class UpdateTagDto extends PartialType(CreateTagDto){}

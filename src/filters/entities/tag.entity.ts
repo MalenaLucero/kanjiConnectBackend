@@ -12,6 +12,9 @@ export class Tag extends Document {
 
     @Prop({ type: String})
     description: string;
+
+    @Prop({ type: Number, required: true })
+    color: number
 }
 
 export const TagSchema = SchemaFactory.createForClass(Tag);
