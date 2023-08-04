@@ -11,6 +11,9 @@ import { LessonsController } from './controllers/lessons/lessons.controller';
 import { LessonsService } from './services/lessons/lessons.service';
 import { Lesson, LessonSchema } from './entities/lesson.entity';
 import { Source, SourceSchema } from './entities/source.entity';
+import { LessonSource, LessonSourceSchema } from './entities/lesson-source.entity';
+import { LessonSourceController } from './controllers/lesson-source/lesson-source.controller';
+import { LessonSourceService } from './services/lesson-source/lesson-source.service';
 
 @Module({
   imports: [MongooseModule.forFeature([
@@ -26,10 +29,13 @@ import { Source, SourceSchema } from './entities/source.entity';
     }, {
         name: Source.name,
         schema: SourceSchema 
-    }
+    }, {
+      name: LessonSource.name,
+      schema: LessonSourceSchema 
+  }
   ])],
-  controllers: [FiltersController, TagsController, LessonsController],
-  providers: [FiltersService, TagsService, LessonsService],
+  controllers: [FiltersController, TagsController, LessonsController, LessonSourceController],
+  providers: [FiltersService, TagsService, LessonsService, LessonSourceService],
   exports: [FiltersService]
 })
 export class FiltersModule {}
