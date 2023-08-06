@@ -1,14 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Model, FilterQuery } from 'mongoose';
+import { Model, FilterQuery, Callback, Document, Error, LeanDocument, NativeError, Query, QueryOptions, SaveOptions, ToObjectOptions, UpdateQuery, UpdateWithAggregationPipeline, _AllowStringsForIds, pathsToSkip } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Lesson } from 'src/filters/entities/lesson.entity';
 import { CreateLessonDto, UpdateLessonDto } from 'src/filters/dtos/lesson.dto';
 import { CreateSourceDto } from './../../dtos/source.dto';
+import { LessonSource } from 'src/filters/entities/lesson-source.entity';
+import { ClientSession, ObjectId } from 'mongodb';
+import { CreateLessonSourceDto } from 'src/filters/dtos/lesson-source.dto';
+import { LessonSourceService } from '../lesson-source/lesson-source.service';
 
 @Injectable()
 export class LessonsService {
-    constructor(@InjectModel(Lesson.name) private lessonModel: Model<Lesson>) {}
+    constructor(@InjectModel(Lesson.name) private lessonModel: Model<Lesson>,
+                private lessonSourceService: LessonSourceService) {}
 
     findAll() {
         return this.lessonModel.find().exec();
@@ -50,7 +55,17 @@ export class LessonsService {
     async addSource(id: string, source: CreateSourceDto) {
         const lesson = await this.lessonModel.findById(id);
         lesson.sources.push(source);
-        return lesson.save();
+        const savedLesson = await lesson.save();
+        const sourceId = savedLesson.sources.find(savedSource => savedSource.name === source.name)._id;
+        const newLessonSource: CreateLessonSourceDto = {
+            user: lesson.user.toString(),
+            lesson: lesson._id,
+            source: sourceId,
+            name: source.name,
+            link: source.link,
+        }
+        await this.lessonSourceService.create(newLessonSource);
+        return savedLesson;
     }
 
     async deleteSource(id: string, sourceId: string) {
