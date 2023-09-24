@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, Post, Body, Put, Delete, HttpStatus, HttpCode, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Body, Put, Delete, HttpStatus, HttpCode, UseGuards, BadRequestException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { ExpressionsService } from 'src/data/services/expressions/expressions.service';
@@ -49,11 +49,16 @@ export class ExpressionsController {
     @Roles(Role.ADMIN)
     @Post()
     async create(@Body() payload: CreateExpressionDto) {
-        const kanjisIds: Array<string> = await this.kanjisService.createFromWord(payload.word);
-        payload.kanjis = kanjisIds;
-        const expression = await this.expressionsService.create(payload);
-        await this.userKanjiService.createFromWord(kanjisIds, expression._id, payload.user);
-        return expression;
+        const expressionInDatabase = await this.expressionsService.findByWordAndUser(payload.word, payload.user);
+        if (expressionInDatabase === null) {
+            const kanjisIds: Array<string> = await this.kanjisService.createFromWord(payload.word);
+            payload.kanjis = kanjisIds;
+            const expression = await this.expressionsService.create(payload);
+            await this.userKanjiService.createFromWord(kanjisIds, expression._id, payload.user);
+            return expression;
+        } else {
+            throw new BadRequestException({message: 'word exists for user'});
+        }
     }
 
     @Roles(Role.ADMIN)

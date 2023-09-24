@@ -46,10 +46,19 @@ export class ExpressionsService {
             .populate('tags', 'name')
             .populate('lesson', 'topic')
             .populate('user', 'username').exec();
-        if (expressions.length === 0) {
-            throw new NotFoundException('Expressions for user with ID ' + id + ' not found');
-        }
         return expressions;
+    }
+
+    async findByWordAndUser(word: string, id: string) {
+        const expression = await this.expressionModel.findOne({ 'word': word, 'user': id })
+            .populate('kanjis', 'kanji')
+            .populate('tags', 'name')
+            .populate('lesson', 'topic')
+            .populate('user', 'username').exec();
+        if (expression === undefined) {
+            throw new NotFoundException('Expressions ' + word + ' not found');
+        }
+        return expression;
     }
 
     filter(data: FilterExpressionsDto) {
