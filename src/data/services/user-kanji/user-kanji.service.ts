@@ -128,7 +128,8 @@ export class UserKanjiService {
                     expressions: [expressionId],
                     difficulty: 5,
                     created: new Date(),
-                    updated: new Date()
+                    updated: new Date(),
+                    notes: '',
                 }
                 await this.create(newUserKanji);
             }

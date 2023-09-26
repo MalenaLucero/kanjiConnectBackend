@@ -67,6 +67,10 @@ export class CreateExpressionDto {
     @IsDate()
     @IsNotEmpty()
     updated: Date;
+
+    @IsString()
+    @IsOptional()
+    readonly notes: string;
 }
 
 export class UpdateExpressionDto extends PartialType(

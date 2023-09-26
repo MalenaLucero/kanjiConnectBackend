@@ -32,6 +32,10 @@ export class CreateUserKanjiDto {
     @IsDate()
     @IsNotEmpty()
     updated: Date;
+
+    @IsString()
+    @IsOptional()
+    readonly notes: string;
 }
 
 export class UpdateUserKanjiDto extends PartialType(

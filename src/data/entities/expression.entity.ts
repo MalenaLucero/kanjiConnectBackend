@@ -53,6 +53,9 @@ export class Expression extends Document {
 
     @Prop({ type: Date, required: true })
     updated: Date
+
+    @Prop({ type: String })
+    notes: string;
 }
 
 export const ExpressionSchema = SchemaFactory.createForClass(Expression);

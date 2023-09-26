@@ -25,6 +25,9 @@ export class UserKanji extends Document {
 
     @Prop({ type: Date, required: true })
     updated: Date;
+
+    @Prop({ type: String })
+    notes: string;
 }
 
 export const UserKanjiSchema = SchemaFactory.createForClass(UserKanji);
