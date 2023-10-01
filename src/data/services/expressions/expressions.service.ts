@@ -9,6 +9,7 @@ import { Expression } from 'src/data/entities/expression.entity';
 import { CreateExpressionDto, UpdateExpressionDto, FilterExpressionsDto } from 'src/data/dtos/expression.dto';
 import { jlptJishoTextToInteger } from './../../../common/jlpt-levels';
 import { Sense } from 'src/data/entities/jisho.entities';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class ExpressionsService {
@@ -97,7 +98,18 @@ export class ExpressionsService {
     }
 
     update(id: string, changes: UpdateExpressionDto) {
-        const expression = this.expressionModel.findByIdAndUpdate(id, { $set: changes }, { new: true }).exec();
+        let update = {};
+        if (changes.hasOwnProperty('tags')) {
+            if (changes.tags.length > 0) {
+                const updatedTagIds = changes.tags.map(tag => new ObjectId(tag._id));
+                update['tags'] = updatedTagIds;
+            } else {
+                update['tags'] = [];
+            }
+        } else {
+            update = changes;
+        }
+        const expression = this.expressionModel.findByIdAndUpdate(id, { $set: update }, { new: true }).exec();
         if (!expression) {
             throw new NotFoundException(id);
         }

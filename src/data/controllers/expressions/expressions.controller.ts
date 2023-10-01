@@ -63,7 +63,7 @@ export class ExpressionsController {
 
     @Roles(Role.ADMIN)
     @Put(':id')
-    update(@Param('id', MongoIdPipe) id: string, @Body() payload: UpdateExpressionDto) {
+    update(@Param('id', MongoIdPipe) id: string, @Body() payload: any) {
         return this.expressionsService.update(id, payload);
     }
 

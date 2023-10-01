@@ -5,6 +5,7 @@ import { Type } from 'class-transformer';
 import { CreateExampleSentenceDto } from "./example-sentence.dto";
 import { difficultyLevels } from "src/common/difficulty-levels";
 import { jlptLevels } from "src/common/jlpt-levels";
+import { Tag } from "src/filters/entities/tag.entity";
 
 export class CreateExpressionDto {
     @IsString()
@@ -73,9 +74,51 @@ export class CreateExpressionDto {
     readonly notes: string;
 }
 
-export class UpdateExpressionDto extends PartialType(
-    OmitType(CreateExpressionDto, ['kanjis', 'exampleSentences', 'tags'])
-){}
+// export class UpdateExpressionDto extends PartialType(
+//     OmitType(CreateExpressionDto, ['kanjis', 'exampleSentences'])
+// ){}
+
+export class UpdateExpressionDto {
+    @IsString()
+    @IsOptional()
+    readonly reading: string;
+
+    @IsArray()
+    @IsOptional()
+    readonly englishMeaning: Array<string>;
+
+    @IsArray()
+    @IsOptional()
+    readonly japaneseMeaning: Array<string>;
+
+    @IsNumber()
+    @IsOptional()
+    @Min(jlptLevels.min)
+    @Max(jlptLevels.max)
+    readonly jlpt: number;
+
+    @IsString()
+    @IsOptional()
+    readonly transitivity: string;
+
+    @IsArray()
+    @IsOptional()
+    readonly tags: Array<Tag>;
+
+    @IsNumber()
+    @IsOptional()
+    @Min(difficultyLevels.min)
+    @Max(difficultyLevels.max)
+    difficulty: number;
+
+    @IsDate()
+    @IsOptional()
+    updated: Date;
+
+    @IsString()
+    @IsOptional()
+    readonly notes: string;
+}
 
 export class FilterExpressionsDto {
     @IsMongoId()
