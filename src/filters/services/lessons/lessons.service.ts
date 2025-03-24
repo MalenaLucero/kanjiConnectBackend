@@ -28,7 +28,7 @@ export class LessonsService {
     }
 
     async findByUser(id: string) {
-        const lessons = await this.lessonModel.find({ user: id }).exec();
+        const lessons = await this.lessonModel.find({ user: id }).sort({date: 'ascending'}).exec();
         if (!lessons) {
             throw new NotFoundException('Lessons for user with ID ' + id + ' not found');
         }
